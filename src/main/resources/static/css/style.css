@@ -1,0 +1,48 @@
+.w-100 {
+    width: 100px;
+    height: 100px;
+}
+
+body {
+    background-color:#424040 ;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+
+.col-3 img,.col-2 img  {
+    object-fit: cover;
+    transition: all 0.3s;
+}
+
+.col-3 img:hover,.col-2 img:hover  {
+    transform: scale(1.1);
+}
+
+.card-title {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+
+}
+
+.commnent {
+    width: 100%;
+}

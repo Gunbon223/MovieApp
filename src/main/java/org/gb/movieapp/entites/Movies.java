@@ -1,11 +1,19 @@
 package org.gb.movieapp.entites;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.gb.movieapp.Model.Enum.MovieType;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "movies")
 public class Movies {
     @Id
@@ -16,14 +24,14 @@ public class Movies {
     @Column(columnDefinition = "TEXT")
     String description;
     String poster;
-    Integer release_year;
+    Integer releaseYear;
     Double rating;
     @Enumerated(EnumType.STRING)
     MovieType type;
     Boolean status;
     String trailer;
-    LocalDateTime created_at;
-    LocalDateTime updated_at;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
 
 

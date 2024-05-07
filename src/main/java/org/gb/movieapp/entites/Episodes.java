@@ -13,7 +13,7 @@ public class Episodes {
     String name;
     Integer duration;
     String video_url;
-    Integer order;
+    Integer orders;
     LocalDateTime created_at;
     LocalDateTime updated_at;
 }
