@@ -72,10 +72,8 @@ class MovieAppApplicationTests {
         //delete
         movieAppRepository.deleteById(2);
         movieAppRepository.delete(movies1);
-//        movieAppRepository.deleteAll();
+        movieAppRepository.deleteAll();
 //        movieAppRepository.deleteAllById(List.of(1, 2, 3));
-        List<Movies> moviesSort = movieAppRepository.findByType(MovieType.ACTION, Sort.by(Sort.Direction.DESC, "rating"));
-
     }
 
     @Test

@@ -49,7 +49,7 @@ public class TvShowServiceImplement implements TvShowService
     }
 
     @Override
-    public List<Movies> findByType(MovieType type, Sort sort) {
+    public Page<Movies> findByType(MovieType type, Pageable sort) {
         return movieAppRepository.findByType(type, sort);
     }
 
@@ -66,6 +66,11 @@ public class TvShowServiceImplement implements TvShowService
     @Override
     public boolean existsByName(String name) {
         return movieAppRepository.existsByName(name);
+    }
+
+    @Override
+    public Page<Movies> findByTypeAndStatus(MovieType type, boolean status, Pageable pageable) {
+        return movieAppRepository.findByTypeAndStatus(type, status, pageable);
     }
 
     @Override
