@@ -21,7 +21,7 @@
                             <a class="nav-link text-white active" aria-current="page" href="/">Trang chủ</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link text-white" href="/tvshows">Phim bộ</a>
+                            <a class="nav-link text-white" href="/tvshow">Phim bộ</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link text-white" href="/movie">Phim lẻ</a>
@@ -47,7 +47,7 @@
             <div class="row text-white">
                 <div th:each="movie : ${pageData.getContent()}" class="col-2">
                     <div class="rounded overflow-hidden" >
-                        <img th:src="${movie.getPoster}" class="card-img-top" alt="..." style="width: 170px; height: 260px; object-fit: cover;border-radius: 15px">                        <div class="">
+                        <img th:src="${movie.getPoster}" class="card-img-top" alt="..." style=" height: 300px; object-fit: cover;border-radius: 15px">                        <div class="">
                         <h5 class="card-title" th:text="${movie.getName}"></h5>
                     </div>
                     </div>
@@ -55,16 +55,16 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item" th:classappend="${pageData.first ? 'disabled' : ''}">
-                            <a class="page-link" th:href="@{/movietheater(page=${pageData.number == 0 ? 0 : pageData.number - 1})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{/movietheater(page=${currentPage - 1})}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, pageData.totalPages - 1)}"
-                            th:classappend="${pageNumber == pageData.number ? 'active' : ''}">
-                            <a class="page-link" th:href="@{/movietheater(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
+                        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, pageData.getTotalPages())}"
+                            th:classappend="${currentPage == pageData.number ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/movietheater(page=${pageNumber})}" th:text="${pageNumber}"></a>
                         </li>
                         <li class="page-item" th:classappend="${pageData.last ? 'disabled' : ''}">
-                            <a class="page-link" th:href="@{/movietheater(page=${pageData.number + 1})}" aria-label="Next">
+                            <a class="page-link" th:href="@{/movietheater(page=${currentPage + 1})}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

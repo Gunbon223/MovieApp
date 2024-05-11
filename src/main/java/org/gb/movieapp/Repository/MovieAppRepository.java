@@ -18,13 +18,19 @@ public interface MovieAppRepository extends JpaRepository<Movies,Integer> {
     List<Movies> findByRatingBetween(Double min, Double max);
     List<Movies> findByRatingLessThanEqual(Double max);
 
-    Page<Movies> findByType(MovieType type, Pageable pageable);
     List<Movies> findByTypeOrderByRatingDesc(MovieType type);
 
     long countByStatus(boolean status);
     boolean existsByName(String name);
 
+    Movies findById(int id);
+
     //Phan trang
     Page<Movies> findByTypeAndStatus(MovieType type, boolean status, Pageable pageable);
     Page<Movies> findByStatus(boolean status, Pageable pageable);
+    Page<Movies> findByStatusOrderByRatingDesc(Pageable pageable, boolean status);
+    Page<Movies> findByType(MovieType type, Pageable pageable);
+
+
+
 }
