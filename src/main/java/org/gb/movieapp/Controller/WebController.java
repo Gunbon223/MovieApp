@@ -54,16 +54,25 @@ public class WebController {
         model.addAttribute("currentPage", page);
         return "movietheater";
     }
+    @GetMapping("/blog")
+    public String getBlog(Model model,
+                                  @RequestParam(required = false ,defaultValue = "1") int page,
+                                  @RequestParam(required = false ,defaultValue = "10") int size) {
+        model.addAttribute("listBlog", blogService.findAllByStatus(true, page, size));
+        model.addAttribute("currentPage", page);
+        return "blog";
+    }
 
-    @GetMapping("/blogdetail/{id}")
-    public String getBlogDetail(Model model, @PathVariable int id) {
+
+    @GetMapping("/blogdetail/{id}/{slug}")
+    public String getBlogDetail(Model model, @PathVariable int id,@PathVariable String slug) {
         model.addAttribute("blog", blogService.getById(id));
         return "blogdetail";
     }
 
-    @GetMapping("/moviedetail/{id}")
-    public String getFilmDetail(Model model, @PathVariable int id) {
-        Movies movie = movieService.getById(id);
+    @GetMapping("/moviedetail/{id}/{slug}")
+    public String getFilmDetail(Model model, @PathVariable int id,@PathVariable String slug) {
+        Movies movie = movieService.getByIdAndSlug(id, slug);
         model.addAttribute("movie", movie);
         model.addAttribute("listSameType", movieService.findByTypeAndStatus(movie.getType(), true,1, 4));
         return "filmdetail";

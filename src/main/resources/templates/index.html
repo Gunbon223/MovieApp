@@ -29,6 +29,9 @@
                         <li class="nav-item ">
                             <a class="nav-link text-white" href="/movietheater">Phim chiếu rạp</a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-white" href="/blog">Blog</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -45,7 +48,7 @@
                 <div class="row">
                     <div th:each="movie : ${listHotMovie.getContent()}" class="col-3">
                         <div class="rounded overflow-hidden" >
-                            <a th:href="@{'/moviedetail/' + ${movie.id}}">
+                            <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
                             <img th:src="${movie.getPoster}" class="card-img-top" alt="..." style=" height: 400px;object-fit: cover;border-radius: 15px">
                             <h5 class="card-title" th:text="${movie.getName}"></h5>
                             </a>
@@ -64,7 +67,7 @@
                 <div class="row">
                     <div th:each="movie : ${listFilm.getContent()}" class="col-2">
                         <div class="rounded overflow-hidden" >
-                            <a th:href="@{'/moviedetail/' + ${movie.id}}">
+                            <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
                                 <img th:src="${movie.poster}" class="card-img-top" alt="..." style=" height: 300px;object-fit: cover;border-radius: 15px">
                                 <h5 class="card-title" th:text="${movie.name}"></h5>
                             </a>
@@ -83,7 +86,7 @@
                 <div class="row">
                         <div th:each="movie : ${listTv.getContent()}" class="col-2">
                             <div class="rounded overflow-hidden" >
-                                <a th:href="@{'/moviedetail/' + ${movie.id}}">
+                                <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
                                 <img th:src="${movie.poster}" class="card-img-top" alt="..." style=" height: 300px;object-fit: cover;border-radius: 15px">
                                 <h5 class="card-title" th:text="${movie.name}"></h5>
                                 </a>
@@ -101,7 +104,7 @@
                 <div class="row">
                     <div th:each="movie : ${listMovie.getContent()}" class="col-2">
                         <div class="rounded overflow-hidden" >
-                            <a th:href="@{'/moviedetail/' + ${movie.id}}">
+                            <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
 
                             <img th:src="${movie.poster}" class="card-img-top" alt="..." style=" height: 300px;object-fit: cover;border-radius: 15px">
                             <h5 class="card-title" th:text="${movie.name}"></h5>
@@ -121,7 +124,7 @@
                 </div>
                 <div class="row">
                     <div th:each="blog : ${listBlog.getContent()}" class="col-6 text-dark">
-                        <a th:href="@{'/blogdetail/' + ${blog.id}}">
+                        <a th:href="@{'/blogdetail/' + ${blog.id}+'/'+${blog.slug}}">
                             <div class="mt-4">
                                 <div class="bg-body-tertiary p-4 rounded text-dark">
                                     <h5 th:text="${blog.title}"></h5>

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 public interface MovieService {
     Movies getById(int id);
+    Movies getByIdAndSlug(int id, String slug);
     //Phan trang
     Page<Movies> findByTypeAndStatus(MovieType type, boolean status,int page, int size);
     Page<Movies> findByStatus(boolean status, Pageable pageable);

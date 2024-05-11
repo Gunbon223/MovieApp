@@ -22,12 +22,18 @@ public class BlogServiceImplements implements BlogService {
     }
 
     @Override
+    public Page<Blogs> findAllByStatus(boolean status, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
+        return blogRepository.findByStatus(status, pageRequest);    }
+
+    @Override
     public Blogs getById(int id) {
         return blogRepository.findById(id);
     }
 
     @Override
-    public Blogs getByTitleAndId(String title, int id) {
-        return blogRepository.findByTitleAndId(title, id);
+    public Blogs getByIdAndSlug(String slug, int id) {
+        return blogRepository.findByIdAndSlug(id, slug);
     }
+
 }

@@ -25,6 +25,11 @@ public class MovieServiceImplement implements MovieService
     }
 
     @Override
+    public Movies getByIdAndSlug(int id, String slug) {
+        return movieAppRepository.findByIdAndSlug(id,slug);
+    }
+
+    @Override
     public Page<Movies> findByTypeAndStatus(MovieType type, boolean status, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page-1, size, Sort.by("CreatedAt").descending());
         return movieAppRepository.findByTypeAndStatus(type, status, pageRequest);

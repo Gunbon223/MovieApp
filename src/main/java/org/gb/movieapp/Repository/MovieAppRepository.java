@@ -24,6 +24,7 @@ public interface MovieAppRepository extends JpaRepository<Movies,Integer> {
     boolean existsByName(String name);
 
     Movies findById(int id);
+    Movies findByIdAndSlug(int id, String slug);
 
     //Phan trang
     Page<Movies> findByTypeAndStatus(MovieType type, boolean status, Pageable pageable);

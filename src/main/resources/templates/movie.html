@@ -29,6 +29,9 @@
                         <li class="nav-item ">
                             <a class="nav-link text-white" href="/movietheater">Phim chiếu rạp</a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-white" href="/blog">Blog</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -42,14 +45,16 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="p-2 text-white" >Danh sách phim lẻ</h3>
-                <a href="#">Xem thêm</a>
             </div>
             <div class="row text-white">
                 <div th:each="movie : ${pageData.getContent()}" class="col-2">
                     <div class="rounded overflow-hidden" >
+                        <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
+
                         <img th:src="${movie.getPoster}" class="card-img-top" alt="..." style=" height: 300px; object-fit: cover;border-radius: 15px">                        <div class="">
                         <h5 class="card-title" th:text="${movie.getName}"></h5>
                     </div>
+                    </a>
                     </div>
                 </div>
                 <nav aria-label="Page navigation example">

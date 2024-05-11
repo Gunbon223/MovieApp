@@ -10,5 +10,6 @@ import java.util.List;
 public interface BlogRepository extends JpaRepository<Blogs,Integer> {
     Page<Blogs> findByStatus(boolean status, Pageable pageable);
     Blogs findById(int id);
+    Blogs findByIdAndSlug(int id, String slug);
     Blogs findByTitleAndId(String title, int id);
 }
