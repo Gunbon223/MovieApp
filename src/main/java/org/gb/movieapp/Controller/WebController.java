@@ -2,20 +2,27 @@ package org.gb.movieapp.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.gb.movieapp.Model.Enum.MovieType;
-import org.gb.movieapp.Service.BlogService;
-import org.gb.movieapp.Service.MovieService;
+import org.gb.movieapp.Service.*;
+import org.gb.movieapp.entites.Blogs;
 import org.gb.movieapp.entites.Movies;
+import org.gb.movieapp.entites.Reviews;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class WebController {
     private final MovieService movieService;
     private final BlogService blogService;
+    private final EpisodeService episodeService;
+    private final ReviewService reviewService;
+    private final CommentService commentService;
+
     @GetMapping("/")
     public String getHomePage(Model model) {
         model.addAttribute("listTv", movieService.findByTypeAndStatus(MovieType.TVSHOWS,true, 1,  6));
@@ -67,6 +74,9 @@ public class WebController {
     @GetMapping("/blogdetail/{id}/{slug}")
     public String getBlogDetail(Model model, @PathVariable int id,@PathVariable String slug) {
         model.addAttribute("blog", blogService.getById(id));
+        Blogs blogs = blogService.getById(id);
+        model.addAttribute("listReview", commentService.getByBLog(blogs));
+
         return "blogdetail";
     }
 
@@ -74,6 +84,10 @@ public class WebController {
     public String getFilmDetail(Model model, @PathVariable int id,@PathVariable String slug) {
         Movies movie = movieService.getByIdAndSlug(id, slug);
         model.addAttribute("movie", movie);
+        model.addAttribute("listReview", reviewService.findByMovies(movie));
+        if (movie.getType() == MovieType.TVSHOWS)
+            model.addAttribute("listEpisode", episodeService.episodesByMovieId(id));
+
         model.addAttribute("listSameType", movieService.findByTypeAndStatus(movie.getType(), true,1, 4));
         return "filmdetail";
     }

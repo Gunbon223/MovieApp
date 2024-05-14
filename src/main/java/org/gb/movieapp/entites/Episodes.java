@@ -1,10 +1,18 @@
 package org.gb.movieapp.entites;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "episodes")
 public class Episodes {
     @Id
@@ -14,7 +22,11 @@ public class Episodes {
     Integer duration;
     String video_url;
     Integer orders;
-    LocalDateTime created_at;
-    LocalDateTime updated_at;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "movies_id")
+    Movies movies;
 }
 

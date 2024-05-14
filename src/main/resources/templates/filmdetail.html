@@ -40,8 +40,8 @@
         </nav>
     </header>
     <div class="container text-white ">
-        <div class="d-flex align-items-center p-3" style="background-color: #18181B; height: 45px;border-radius: 8px;">
-            <h6><a href="index.html" class="text-primary">Trang chủ </a>  >  <a href="film-detail.html" class="text-primary ">Phim Trung Quốc </a>  > <span th:text="${movie.getName()}"></span></h6>
+        <div class="d-flex align-items-center p-3 content-bg" >
+            <h6><a href="index.html" class="text-primary">Trang chủ </a>  >  <a href="film-detail.html" class="text-primary " th:text="'Phim ' + ${movie.getCountry().getName()}"> Trung Quốc </a>  > <span th:text="${movie.getName()}"></span></h6>
         </div>
         <div class="d-flex align-items-center mt-2 p-3 " style="background-color: #18181B;border-radius: 8px;">
             <div class="d-flex justify-content-between">
@@ -49,19 +49,51 @@
                     <img th:src="${movie.getPoster()}" class="" style=" height: 350px;object-fit: cover;border-radius: 15px" alt="poster-flim" >
                 </div>
                 <div class="ms-5 ">
-                    <h3 th:text="${movie.getName()}">Young Babylon (2022)</h3>
-                    <p>Số lượt xem: <span class="text-primary">101203</span> </p>
-                    <p>Thể loại: <span class="text-primary" th:text="${movie.getType()}">Phim nước ngoài</span> </p>
-                    <p class="mt-4" th:text="${movie.getDescription()}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores minima illo accusamus fugiat praesentium, ratione quam itaque dolor iste tenetur expedita error nobis repellat, optio exercitationem non ipsam porro tempore
+                    <div class="row" style="width: 50%">
+                    <div class="col">
+                        <button type="button" class="btn btn-lg btn-primary mb-4 rounded-pill">
+                            Xem phim
+                        </button>
+                    </div>
+                    <div class="col">
+                        <a >
+                        <button type="button" class="btn btn-lg btn-primary mb-4 rounded-pill">
+                            Trailer
+                        </button></a>
+                    </div>
+                    </div>
+                    <h3 th:text="${movie.getName()}">Film detail</h3>
+                    <p>Số lượt xem: <span class="text-primary">781230</span> </p>
+                    <p>Thể loại:  <span class="text-primary" th:each="gen, pos : ${movie.getGenres()}"
+                                        th:text="${gen.getName()} + ${pos.last ? '' : ', '}"></span> </p>
+                    <p>Đạo diễn:
+                        <span th:each="director, pos : ${movie.getDirectors()}"
+                              th:text="${director.getName()} + ${pos.last ? '' : ', '}"></span>
+                    </p>
+                    <p>Diễn viên:
+                        <span th:each="actor, pos : ${movie.getActors()}"
+                              th:text="${actor.getName()} + ${pos.last ? '' : ', '}"></span>
+                    </p>
+                    <p class="mt-3" th:text="${movie.getDescription()}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores minima illo accusamus fugiat praesentium, ratione quam itaque dolor iste tenetur expedita error nobis repellat, optio exercitationem non ipsam porro tempore
                     </p>
                     <p th:text="'Rating: ' +${movie.getRating()}+'⭐'"></p>
-                    <button type="button" class="btn btn-primary">
-                        Xem phim
-                    </button>
+
+
 
                 </div>
+
             </div>
 
+
+        </div>
+        <div th:if="${listEpisode != null and listEpisode.size() > 0}" class="row container mt-4 p-3" style="background-color: #18181B;border-radius: 8px;">
+            <h5 >Danh sách tập</h5>
+
+            <div th:each="episode: ${listEpisode}" class="col-2 ">
+                <button type="button" class="btn btn-primary mb-2 width-100px"
+                        th:text="${#strings.length(episode.name) > 20 ? #strings.substring(episode.name, 0, 17) + '...' : episode.name}">
+                </button>
+            </div>
         </div>
         <div class="container mt-4">
             <h5>Phim đề xuất</h5>
@@ -79,10 +111,48 @@
         </div>
 
     </div>
-</div>
+    <div class="mt-4 text-white container">
+        <h4>Để lại bình luận</h4>
+        <div class="comment-sec bg-black text-white p-4 rounded">
+            <div class="comment ">
+                <div class="row" th:each="review : ${listReview}">
+                <div class="col-2" >
+                    <img th:src="${review.getUser().getAvatar()}"
+                         class="profile-pic rounded-circle" alt="logo">
+                    <span th:text="${#temporals.format(review.getCreatedAt(), 'dd/MM/yyyy')}"></span>
+                    <p class="ms-5" th:text="${review.getUser().getName}"></p></div>
+                    <div class="col-10 mt-4 ">
+                        <p th:text="${review.getContent()}"></p>
+                    </div></div>
 
 
-<footer class="bg-dark text-white mt-4 p-4 container">
+            </div>
+
+
+                    <div class="user-cmt">
+                        <h4>Gửi bình luận</h4>
+                        <div class="row">
+                            <div class="col-2 border border-white">
+                                <img
+                                        src="https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
+                                        class="profile-pic" alt="logo">
+                                <p class="ms-4">Guest</p>
+                            </div>
+                            <div class="col-10 border border-white" >
+                                <input type="text" class="form-control" style="height: 180px;" placeholder="Nhập bình luận">
+                            </div>
+
+                        </div>
+                        <div class="d-flex  justify-content-end">
+                            <button class="btn btn-primary mt-2">Gửi</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+                <footer class="bg-dark text-white mt-4 p-4 container">
     <div class="row">
         <div class="col-3">
             <img src="https://motchilltv.ac/_ipx/f_webp&s_150x35/logo.png" alt="logo">
@@ -120,8 +190,11 @@
             </ul>
         </div>
     </div>
+
 </footer>
 </div>
+
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

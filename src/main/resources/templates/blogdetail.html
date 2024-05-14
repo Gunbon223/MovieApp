@@ -49,88 +49,50 @@
     </div>
 
 
-        <div class="mt-4 text-white container">
-            <h4>Để lại bình luận</h4>
-            <div class="comment-sec bg-white text-dark p-2">
-                <div class="comment row">
-                    <div class=" col-6">
+
+    <div class="mt-4 text-white container">
+        <h4>Để lại bình luận</h4>
+        <div class="comment-sec bg-black text-white p-4 rounded">
+            <div class="comment ">
+                <div class="row" th:each="review : ${listReview}">
+                    <div class="col-2" >
+                        <img th:src="${review.getUser().getAvatar()}"
+                             class="profile-pic rounded-circle" alt="logo">
+                        <span th:text="${#temporals.format(review.getCreatedAt(), 'dd/MM/yyyy')}"></span>
+                        <p class="ms-5" th:text="${review.getUser().getName}"></p></div>
+                    <div class="col-10 mt-4 ">
+                        <p th:text="${review.getContent()}"></p>
+                    </div></div>
+
+
+            </div>
+
+
+            <div class="user-cmt">
+                <h4>Gửi bình luận</h4>
+                <div class="row">
+                    <div class="col-2">
                         <img
                                 src="https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
                                 class="profile-pic" alt="logo">
-
-                        <span>A commnented 3 days ago</span>
-                        <p class="ms-4">Loki</p>
-
+                        <p class="ms-4">Guest</p>
                     </div>
-
-                    <div class="col-6 mt-4 ">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quos incidunt numquam? Blanditiis nisi
-                            maiores dignissimos cupiditate pariatur quasi perferendis dicta, soluta exercitationem, quam rem
-                            delectus fugiat. Quaerat, dolore eum.</p>
+                    <div class="col-10 " >
+                        <input type="text" class="form-control" style="height: 180px;" placeholder="Nhập bình luận">
                     </div>
 
                 </div>
-                <div class="comment-sec bg-white text-dark">
-                    <div class="comment row">
-                        <div class=" col-6">
-                            <img
-                                    src="https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
-                                    class="profile-pic" alt="logo">
+                <div class="d-flex  justify-content-end">
+                    <button class="btn btn-primary mt-2">Gửi</button>
+                </div>
 
-                            <span>A commnented 3 days ago</span>
-                            <p class="ms-4">Loki</p>
-
-                        </div>
-
-                        <div class="col-6 mt-4 ">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quos incidunt numquam? Blanditiis
-                                nisi maiores dignissimos cupiditate pariatur quasi perferendis dicta, soluta exercitationem, quam rem
-                                delectus fugiat. Quaerat, dolore eum.</p>
-                        </div>
-
-                    </div>
-                    <div class="comment-sec bg-white text-dark">
-                        <div class="comment row">
-                            <div class=" col-6">
-                                <img
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
-                                        class="profile-pic" alt="logo">
-
-                                <span>A commnented 3 days ago</span>
-                                <p class="ms-4">Loki</p>
-
-                            </div>
-
-                            <div class="col-6 mt-4 ">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quos incidunt numquam? Blanditiis
-                                    nisi maiores dignissimos cupiditate pariatur quasi perferendis dicta, soluta exercitationem, quam
-                                    rem delectus fugiat. Quaerat, dolore eum.</p>
-                            </div>
-
-                        </div>
-
-                        <div class="user-cmt">
-                            <h4>Gửi bình luận</h4>
-                            <div class="row">
-                                <div class="col-6" style="width: 15%;">
-                                    <img
-                                            src="https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
-                                            class="profile-pic" alt="logo">
-                                    <p class="ms-4">User</p>
-                                </div>
-                                <div class="col-6 " style="width: 80%;">
-                                    <input type="text" class="form-control" style="height: 180px;" placeholder="Nhập bình luận">
-                                </div>
-
-                            </div>
-                            <div class="d-flex  justify-content-end">
-                                <button class="btn btn-primary mt-2 me-5">Gửi</button>
-                            </div>
-
-                        </div>
+            </div>
+        </div>
+    </div>
 
 
-                    </div>
+
+</div>
                 </div>
             </div>
 

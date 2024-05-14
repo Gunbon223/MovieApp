@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.gb.movieapp.Model.Enum.MovieType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -32,6 +33,34 @@ public class Movies {
     String trailer;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "countries_id")
+    Country country;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movies_genres",
+            joinColumns = @JoinColumn(name = "movies_id"),
+            inverseJoinColumns = @JoinColumn(name = "genres_id")
+    )
+    List<Genre> genres;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movies_actors",
+            joinColumns = @JoinColumn(name = "movies_id"),
+            inverseJoinColumns = @JoinColumn(name = "actors_id")
+    )
+    List<Actors> actors;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movies_directors",
+            joinColumns = @JoinColumn(name = "movies_id"),
+            inverseJoinColumns = @JoinColumn(name = "directors_id")
+    )
+    List<Directors> directors;
 }
 
 

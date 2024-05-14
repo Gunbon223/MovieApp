@@ -56,3 +56,14 @@ ul {
 .commnent {
     width: 100%;
 }
+
+.width-100px {
+    width: 200px;
+    height: 40px;
+}
+
+.content-bg {
+    background-color: #18181B;
+    height: 45px;
+    border-radius: 8px;
+}
