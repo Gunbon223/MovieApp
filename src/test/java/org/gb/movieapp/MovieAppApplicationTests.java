@@ -2,8 +2,6 @@ package org.gb.movieapp;
 
 import com.github.javafaker.Faker;
 import com.github.slugify.Slugify;
-import org.gb.movieapp.Model.Enum.MovieType;
-import org.gb.movieapp.Model.Enum.UserRole;
 import org.gb.movieapp.Repository.*;
 import org.gb.movieapp.Utils.RandomColor;
 import org.gb.movieapp.entites.*;

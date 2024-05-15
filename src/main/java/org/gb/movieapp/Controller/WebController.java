@@ -5,14 +5,11 @@ import org.gb.movieapp.Model.Enum.MovieType;
 import org.gb.movieapp.Service.*;
 import org.gb.movieapp.entites.Blogs;
 import org.gb.movieapp.entites.Movies;
-import org.gb.movieapp.entites.Reviews;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor

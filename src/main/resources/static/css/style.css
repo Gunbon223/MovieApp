@@ -67,3 +67,32 @@ ul {
     height: 45px;
     border-radius: 8px;
 }
+
+
+.rating {
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    display: inline-block;
+}
+
+.star {
+    display: inline-block;
+}
+
+.star:hover,
+.star.active {
+    color: #EDBB0E;
+}
+
+.rating .star.active {
+    color: #EDBB0E;
+}
+
+
+
+.top-left-placeholder::placeholder {
+    text-align: left;
+    padding-top: 0px;
+}
+
