@@ -37,6 +37,8 @@ function highlightStars(rating) {
     });
 }
 
+
+
 // render review
 const formatDate = dateStr => {
     const date = new Date(dateStr);
@@ -48,8 +50,36 @@ const formatDate = dateStr => {
 const reviewListEl = document.querySelector(".review-list");
 const renderReview = reviews => {
     let html = "";
+    let btnEdit = "";
     reviews.forEach(review => {
-        html += `
+        if (curUser.id != review.user.id) {
+            html += `
+            <div class="rating-item d-flex align-items-center mb-3 pb-3 text-white">
+                <div class="rating-avatar">
+                    <img src="${review.user.avatar}" alt="${review.user.name}" style="width: 120px">
+                </div>
+                <div class="rating-info ms-3">
+                    <div class="d-flex align-items-center">
+                        <p class="rating-name mb-0">
+                            <strong>${review.user.name}</strong>
+                        </p>
+                        <p class="rating-time mb-0 ms-2">${formatDate(review.createdAt)}</p>
+                       
+                    </div>
+                    <div class="rating-star">
+                        <p class="mb-0 fw-bold">
+                            <span class="rating-icon"><i class="fa fa-star"></i></span>
+                            <span>${review.rating}/10 </span>
+                        </p>
+
+                    </div>
+                    <p class="rating-content mt-1 mb-0 ">${review.content}</p>
+                </div>
+            </div>
+        `
+        }
+        else {
+            html += `
             <div class="rating-item d-flex align-items-center mb-3 pb-3 text-white">
                 <div class="rating-avatar">
                     <img src="${review.user.avatar}" alt="${review.user.name}" style="width: 120px">
@@ -61,20 +91,18 @@ const renderReview = reviews => {
                         </p>
                         <p class="rating-time mb-0 ms-2">${formatDate(review.createdAt)}</p>
                          <div>
-<div>
                             <button class="btn btn-primary ms-4 btn-edit-review"
                                     data-review-id="${review.id}"
                                     data-review-content="${review.content}"
                                     data-review-rating="${review.rating}">Change</button>   
                             <button class="btn btn-primary ms-2 btn-delete-review"
                                     data-review-id="${review.id}">Delete</button>                                                            
-                        </div>                            
-                        </div>
+                        </div>   
                     </div>
                     <div class="rating-star">
                         <p class="mb-0 fw-bold">
                             <span class="rating-icon"><i class="fa fa-star"></i></span>
-                            <span>${review.rating}/10 Tuyệt vời</span>
+                            <span>${review.rating}/10</span>
                         </p>
 
                     </div>
@@ -82,6 +110,8 @@ const renderReview = reviews => {
                 </div>
             </div>
         `
+        }
+
     })
 
     reviewListEl.innerHTML = html;
@@ -136,6 +166,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 myModalReviewEl.hide();
 
+                toastr.success("Đánh giá thành công");
+
                 // reset
             } catch (e) {
                 console.log(e)
@@ -156,10 +188,11 @@ const attachEventListeners = () => {
     const modalCreateBtn = document.getElementById("btn-create-review");
     const modalTitle = document.getElementById("staticBackdropLabel");
 
-    modalCreateBtn.innerHTML = "Sửa";
-    modalTitle.innerHTML = "Sửa đánh giá";
+
     changeButtons.forEach((button) => {
         button.addEventListener("click", function() {
+            modalCreateBtn.innerHTML = "Sửa";
+            modalTitle.innerHTML = "Sửa đánh giá";
             // Get the review data from the button's data attributes
             const reviewId = this.getAttribute("data-review-id");
             const reviewContent = this.getAttribute("data-review-content");
@@ -191,6 +224,8 @@ const attachEventListeners = () => {
                     renderReview(reviews);
 
                     myModalReviewEl.hide();
+
+                    toastr.success("Cập nhật đánh giá thành công");
                 } catch (e) {
                     console.log(e)
                 }
@@ -210,6 +245,8 @@ const attachEventListeners = () => {
                     if (reviewIndex !== -1) {
                         reviews.splice(reviewIndex, 1);
                         renderReview(reviews);
+
+                        toastr.success("Xoá đánh giá thành công");
                     }
                 } catch (e) {
                     console.log(e)
