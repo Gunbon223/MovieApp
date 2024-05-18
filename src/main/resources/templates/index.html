@@ -32,6 +32,41 @@
                         <li class="nav-item ">
                             <a class="nav-link text-white" href="/blog">Blog</a>
                         </li>
+                        <li class="nav-item right-corner">
+                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" th:if="${session.currentUser == null}">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Login/Register
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-dark">
+                                            <li><a class="dropdown-item" href="/login">Login</a></li>
+                                            <li><a class="dropdown-item" href="/register">Register</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdownUser" th:if="${session.currentUser != null}">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.currentUser.getName()}">
+                                            Login/Register
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-dark">
+                                            <li><a class="dropdown-item" href="/login" th:if="${session.currentUser.role == 'Admin' }">Admin page</a></li>
+                                            <li><a class="dropdown-item" href="/register">User Info</a></li>
+                                            <li><a class="dropdown-item" href="/register">Recently watch</a></li>
+                                            <li><a class="dropdown-item" href="/register">Your favourite</a></li>
+                                            <li><a class="dropdown-item" href="/register">Log out</a></li>
+
+
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -187,5 +222,8 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+</script>
 </body>
 </html>

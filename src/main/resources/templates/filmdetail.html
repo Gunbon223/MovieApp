@@ -15,34 +15,67 @@
 
 <body>
 <div class="container bg-dark">
-    <header class="bg-dark ">
-        <nav class="navbar navbar-expand-lg  ">
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <img alt="logo" src="https://motchilltv.ac/_ipx/f_webp&s_150x35/logo.png"></a>
+        <header class="bg-dark ">
+            <nav class="navbar navbar-expand-lg  ">
+                <div class="container">
+                    <a class="navbar-brand" href="/">
+                        <img src="https://motchilltv.ac/_ipx/f_webp&s_150x35/logo.png" alt="logo"></a>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-2">
-                        <li class="nav-item ">
-                            <a aria-current="page" class="nav-link text-white active" href="/">Trang chủ</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/tvshow">Phim bộ</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/movie">Phim lẻ</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/movietheater">Phim chiếu rạp</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/blog">Blog</a>
-                        </li>
-                    </ul>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-2">
+                            <li class="nav-item ">
+                                <a class="nav-link text-white active" aria-current="page" href="/">Trang chủ</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-white" href="/tvshow">Phim bộ</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-white" href="/movie">Phim lẻ</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-white" href="/movietheater">Phim chiếu rạp</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-white" href="/blog">Blog</a>
+                            </li>
+                            <li class="nav-item right-corner">
+                                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" th:if="${session.currentUser == null}">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item dropdown">
+                                            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Login/Register
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a class="dropdown-item" href="/login">Login</a></li>
+                                                <li><a class="dropdown-item" href="/register">Register</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="collapse navbar-collapse" id="navbarNavDarkDropdownUser" th:if="${session.currentUser != null}">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item dropdown">
+                                            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.currentUser.getName()}">
+                                                 username!
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a class="dropdown-item" href="/login" th:if="${session.currentUser.role == 'Admin' }">Admin page</a></li>
+                                                <li><a class="dropdown-item" href="/register">User Info</a></li>
+                                                <li><a class="dropdown-item" href="/register">Recently watch</a></li>
+                                                <li><a class="dropdown-item" href="/register">Your favourite</a></li>
+                                                <li><a class="dropdown-item" id="logout">Log out</a></li>
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
     <div class="container text-white ">
         <div class="d-flex align-items-center p-3 content-bg" >
             <h6><a class="text-primary" href="index.html">Trang chủ </a>  >  <a class="text-primary " href="film-detail.html" th:text="'Phim ' + ${movie.getCountry().getName()}"> Trung Quốc </a>  > <span th:text="${movie.getName()}"></span></h6>
@@ -194,13 +227,14 @@
                             <strong th:text="${review.user.name}"></strong>
                         </p>
                         <p class="rating-time mb-0 ms-2" th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy')}"></p>
-                        <div>
+                        <div th:if="${session.currentUser != null and session.currentUser.getId() == review.user.id}">
                             <button class="btn btn-primary ms-4 btn-edit-review"
                                     th:data-review-id="${review.id}"
                                     th:data-review-content="${review.content}"
                                     th:data-review-rating="${review.rating}">Change</button>
                             <button class="btn btn-primary ms-2 btn-delete-review"
-                                    th:data-review-id="${review.id}">Delete</button>   </div>
+                                    th:data-review-id="${review.id}">Delete</button>
+                        </div>
                     </div>
                     <div class="rating-star">
                         <p class="mb-0 fw-bold">
@@ -271,6 +305,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="/js/movie-detail.js"></script>
+<script src="/js/login-logout.js"></script>
+
 </body>
 
 </html>

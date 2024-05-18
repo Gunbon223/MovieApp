@@ -89,5 +89,14 @@ public class WebController {
         return "filmdetail";
     }
 
+    @GetMapping("/login")
+    public String getLogin() {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String getRegister() {
+        return "register";
+    }
 
 }

@@ -2,6 +2,8 @@ package org.gb.movieapp;
 
 import com.github.javafaker.Faker;
 import com.github.slugify.Slugify;
+import org.gb.movieapp.Model.Enum.MovieType;
+import org.gb.movieapp.Model.Enum.UserRole;
 import org.gb.movieapp.Repository.*;
 import org.gb.movieapp.Utils.RandomColor;
 import org.gb.movieapp.entites.*;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -61,6 +64,9 @@ class MovieAppApplicationTests {
     @Autowired
     UserRepository userRepository;
 
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Test
@@ -268,6 +274,15 @@ void saveUser() {
 
 
     @Test
+    void updatePasswordUser() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            user.setPassword(bCryptPasswordEncoder.encode("123"));
+            userRepository.save(user);
+        }
+    }
+
+    @Test
     void save_Review() {
         Faker faker = new Faker();
         Random random = new Random();
@@ -365,5 +380,6 @@ void saveUser() {
         System.out.println("Total pages: " + page.getTotalPages());
         page.getContent().forEach(movies -> System.out.println(movies.getName()));
     }
+
 
 }
