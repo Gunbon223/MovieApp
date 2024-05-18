@@ -1,6 +1,8 @@
-- Xử lý exception trong Springboot
+## Xử lý exception trong Springboot
+
+
 - Xử lý validation trong Stringboot
-- Xử lý validation frontend sử dụng jquery validation
+## Xử lý validation frontend sử dụng jquery validation
 
 - 3 cdn:
 ```js
@@ -9,6 +11,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js" integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
+
+- Thêm script
+
+
 
 ## Notification frontend sử dụng toastr
 - B1: Thêm jquery (jquery cần đặt trước file js)
