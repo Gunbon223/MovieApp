@@ -7,7 +7,10 @@ logoutBtn.addEventListener('click', () => {
         },
     }).then(response => {
         if (response.ok) {
-            location.href = '/';
+            toastr.success("Đăng xuất thành công");
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
         }
     });
 });

@@ -1,6 +1,8 @@
 package org.gb.movieapp.Service.ServiceImplement;
 
 import jakarta.servlet.http.HttpSession;
+import org.gb.movieapp.Exception.BadRequestException;
+import org.gb.movieapp.Exception.ResourceNotFoundException;
 import org.gb.movieapp.Model.Request.UpsertReviewRequest;
 import org.gb.movieapp.Repository.MovieAppRepository;
 import org.gb.movieapp.Repository.ReviewRepository;
@@ -34,10 +36,12 @@ public class ReviewServiceImplement implements ReviewService {
     //Validate thong tin: rating, content, su dung validation
     @Override
     public Reviews createReview(UpsertReviewRequest request) {
-        //TODO: fix userid la user dang login
         User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
+        }
 
-        Movies movie = movieRes.findById(request.getMovieId()).orElseThrow(() -> new RuntimeException("Movie not found"));
+        Movies movie = movieRes.findById(request.getMovieId()).orElseThrow(() -> new BadRequestException("Không tìm thấy phim này !"));
 
         //tao review
         Reviews reviews = Reviews.builder()
@@ -53,19 +57,19 @@ public class ReviewServiceImplement implements ReviewService {
 
     @Override
     public Reviews updateReview(UpsertReviewRequest request, int id) {
-        Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy review"));
 
         User user = (User) session.getAttribute("currentUser");
-        Movies movie = movieRes.findById(request.getMovieId()).orElseThrow(() -> new RuntimeException("Movie not found"));
+        Movies movie = movieRes.findById(request.getMovieId()).orElseThrow(() -> new BadRequestException("Không tìm thấy phim này !"));
 
         //check if user is the owner of the review
         if(!reviews.getUser().getId().equals(user.getId())){
-            throw new RuntimeException("You are not the owner of this review");
+            throw new BadRequestException("Bạn không thể chỉnh sửa review của người khác");
         }
 
         //check if the review is already on the movie
         if(!reviews.getMovies().getId().equals(movie.getId()) ){
-            throw new RuntimeException("This review is not on the movie");
+            throw new BadRequestException("Review không thuộc phim này");
         }
 
         reviews.setContent(request.getContent());
@@ -80,13 +84,13 @@ public class ReviewServiceImplement implements ReviewService {
 
     @Override
     public void deleteReview(int id) {
-        Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy review"));
 
         User user = (User) session.getAttribute("currentUser");
 
         //check if user is the owner of the review
         if(!reviews.getUser().getId().equals(user.getId())){
-            throw new RuntimeException("You are not the owner of this review");
+            throw new ResourceNotFoundException("Bạn không thể chỉnh sửa review của người khác");
         }
 
         reviewRepository.delete(reviews);

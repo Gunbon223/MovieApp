@@ -134,6 +134,32 @@ modalReviewEl.addEventListener('hidden.bs.modal', event => {
     resetStars();
 })
 
+$('#form-review').validate({
+    rules: {
+        content: {
+            required: true,
+            minlength: 10
+        },
+    },
+    messages: {
+        content: {
+            required: "Vui lòng nhập nội dung đánh giá",
+            minlength: "Nội dung đánh giá phải có ít nhất 10 ký tự"
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     const formReviewEl = document.getElementById("form-review");
     if(formReviewEl) {
@@ -141,14 +167,8 @@ document.addEventListener("DOMContentLoaded", function() {
         formReviewEl.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // TODO: Validate các thông tin (sử dụng thư jQuery Validation)
-            if (currentRating === 0) {
-                alert("Vui lòng chọn số sao");
-                return;
-            }
-
-            if (reviewContentEl.value.trim() === "") {
-                alert("Nội dung đánh giá không được để trống");
+            if (!$('#form-review').valid()) {
+                toastr.error("Vui lòng nhập đầy đủ thông tin");
                 return;
             }
 
@@ -171,10 +191,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 // reset
             } catch (e) {
                 console.log(e)
+                toastr.error(e.response.data.message)
+
             }
         })
-    } else {
-        console.error("Element with id 'form-review' was not found");
     }
 });
 

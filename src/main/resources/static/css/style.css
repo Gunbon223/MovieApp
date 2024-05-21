@@ -105,3 +105,12 @@ ul {
     right: 0;
 }
 
+#toast-container .toast-success {
+    background-color: cadetblue;
+    color: white;
+    border: 0;
+}
+
+#toast-container .toast-error {
+    background-color: #d63031;
+}

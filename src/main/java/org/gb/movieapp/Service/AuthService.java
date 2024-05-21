@@ -2,6 +2,7 @@ package org.gb.movieapp.Service;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.gb.movieapp.Exception.BadRequestException;
 import org.gb.movieapp.Model.Request.LoginRequest;
 import org.gb.movieapp.Repository.UserRepository;
 import org.gb.movieapp.entites.User;
@@ -17,10 +18,10 @@ public class AuthService {
     public void login(LoginRequest request){
         //Kiem tra email
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(()->new RuntimeException("Email incorrect"));
+                .orElseThrow(()->new BadRequestException("Email incorrect"));
         //kiem tra xem password co khop khong
         if(!passwordEncoder.matches(request.getPassword(),user.getPassword())){
-            throw new RuntimeException("Password incorrect");
+            throw new BadRequestException("Password incorrect");
         }
         //luu thong tin user vao trong session
         session.setAttribute("currentUser",user);

@@ -1,44 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Trang chu</title>
+<head th:replace="fragments/header :: header-link">
+    <title>Blog</title>
 </head>
 
 <body>
 <div class="container bg-dark">
-    <header class="bg-dark ">
-        <nav class="navbar navbar-expand-lg  ">
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <img src="https://motchilltv.ac/_ipx/f_webp&s_150x35/logo.png" alt="logo"></a>
+    <header th:insert="~{fragments/header.html :: header-frag}"></header>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-2">
-                        <li class="nav-item ">
-                            <a class="nav-link text-white active" aria-current="page" href="/">Trang chủ</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/tvshow">Phim bộ</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/movie">Phim lẻ</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/movietheater">Phim chiếu rạp</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-white" href="/blog">Blog</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
     <div class="container text-white">
         <h3 th:text="${blog.getTitle()}"></h3>
         </h3>
@@ -98,50 +68,12 @@
 
 
 
-            <footer class="bg-dark text-white p-4">
-                <div class="row">
-                    <div class="col-3">
-                        <img src="https://motchilltv.ac/_ipx/f_webp&s_150x35/logo.png" alt="logo">
-                        <p class="mt-2"> <span style="color: white;">Motchill</span> - Trang web xem phim trực tuyến miễn phí chất
-                            lượng cao với giao diện trực quan, tốc độ tải trang nhanh, cùng kho phim với hơn 10.000+ phim mới, phim
-                            hay, luôn cập nhật phim nhanh, hứa hẹn sẽ đem lại phút giây thư giãn cho bạn.</p>
-                    </div>
-                    <div class="col-3">
-                        <h5>Liên kết</h5>
-                        <ul>
-                            <li><a href="#">Trang chủ</a></li>
-                            <li><a href="#">Phim bộ</a></li>
-                            <li><a href="#">Phim lẻ</a></li>
-                            <li><a href="#">Phim chiếu rạp</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-3">
-                        <h5>Danh mục</h5>
-                        <ul>
-                            <li><a href="#">Phim Cổ Trang
-                            </a></li>
-                            <li><a href="#">Phim Mỹ
-                            </a></li>
-                            <li><a href="#">Phim Lẻ</a></li>
-                            <li><a href="#">Phim Chiếu Rạp</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-3">
-                        <h5>Điều khoản</h5>
-                        <ul>
-                            <li><a href="#">DMCA</a></li>
-                            <li><a href="#">Liên hệ</a></li>
-                            <li><a href="#">CSKH</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
+<div th:insert="fragments/footer.html :: footer-ul"></div>
 
-            </footer>
         </div>
 </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<div th:insert="fragments/header.html :: footer-link"></div>
 </body>
 
 </html>

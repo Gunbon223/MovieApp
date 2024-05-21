@@ -27,6 +27,8 @@ public class WebController {
         model.addAttribute("listFilm", movieService.findByTypeAndStatus(MovieType.FILM,true, 1,  6));
         model.addAttribute("listHotMovie", movieService.OrderByRatingDesc(false, 1, 4));
         model.addAttribute("listBlog", blogService.findByStatus(true,4));
+        model.addAttribute("title", "Home");
+
         return "index";
     }
 
