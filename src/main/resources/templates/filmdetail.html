@@ -154,7 +154,7 @@
         <div class=" bg-black text-white p-4 rounded review-list">
             <div class="rating-item d-flex align-items-center mb-3 pb-3 text-white" th:each="review : ${listReview}">
                 <div class="rating-avatar">
-                    <img th:src="${review.user.avatar}" th:alt="${review.user.name}" style="width: 120px">
+                    <img th:src="${review.user.avatar}" th:alt="${review.user.name}" style="width: 120px" class=" rounded">
                 </div>
                 <div class="rating-info ms-3">
                     <div class="d-flex align-items-center">

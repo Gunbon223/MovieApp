@@ -8,12 +8,12 @@
 
     <header th:insert="~{fragments/header.html :: header-frag}"></header>
 
-    <div class="container">
+    <div class="container mtb-50">
         <div class="row justify-content-center mt-5 mb-5">
             <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="card shadow">
-                    <div class="card-title text-center border-bottom">
-                        <h2 class="p-3">Login</h2>
+                <div class="card shadow bg-dark-subtle text-black">
+                    <div class="card-title text-center border-bottom border danger-subtle p-2">
+                        <img th:src="@{/img/logo7.png}" alt="logo" style="width: 150px;height: auto;"></a>
                     </div>
                     <div class="card-body ">
                         <form id="form-login" >
@@ -37,6 +37,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
     <div th:insert="fragments/footer.html :: footer-ul"></div>

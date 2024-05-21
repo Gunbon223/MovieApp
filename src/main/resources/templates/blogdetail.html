@@ -9,32 +9,35 @@
 <div class="container bg-dark">
     <header th:insert="~{fragments/header.html :: header-frag}"></header>
 
-    <div class="container text-white">
-        <h3 th:text="${blog.getTitle()}"></h3>
+    <div class="container text-light rounded mt-5 p-2">
+        <h3 th:text="${blog.getTitle()}" class="text-center"></h3>
         </h3>
-        <p th:text="${#temporals.format(blog.getCreatedAt(), 'dd/MM/yyyy')}"></p>
+        <p th:text="${#temporals.format(blog.getCreatedAt(), 'dd/MM/yyyy')} " class="text-end"></p>
         <p class="mb-0" th:text=" ${blog.getDescription()}"></p>
-        <img th:src="${blog.getThumbnail()}" alt="blog" class="img-fluid mx-auto d-block mt-4 mb-4">
+        <img th:src="${blog.getThumbnail()}" alt="blog" class="img-fluid mx-auto d-block mt-4 mb-4 rounded">
         <p th:text="   ${blog.getContent()}"></p>
     </div>
 
 
 
-    <div class="mt-4 text-white container">
+    <div class="mt-5 text-white p-2">
         <h4>Để lại bình luận</h4>
-        <div class="comment-sec bg-black text-white p-4 rounded">
-            <div class="comment ">
-                <div class="row" th:each="review : ${listReview}">
-                    <div class="col-2" >
-                        <img th:src="${review.getUser().getAvatar()}"
-                             class="profile-pic rounded-circle" alt="logo">
-                        <span th:text="${#temporals.format(review.getCreatedAt(), 'dd/MM/yyyy')}"></span>
-                        <p class="ms-5" th:text="${review.getUser().getName}"></p></div>
-                    <div class="col-10 mt-4 ">
-                        <p th:text="${review.getContent()}"></p>
-                    </div></div>
+        <div class=" bg-black text-white p-4 rounded review-list">
+            <div class="rating-item d-flex align-items-center mb-3 pb-3 text-white" th:each="review : ${listReview}">
+                <div class="rating-avatar">
+                    <img th:src="${review.user.avatar}" th:alt="${review.user.name}" style="width: 120px" class="rounded">
+                </div>
+                <div class="rating-info ms-3">
+                    <div class="d-flex align-items-center">
+                        <p class="rating-name mb-0">
+                            <strong th:text="${review.user.name}"></strong>
+                        </p>
+                        <p class="rating-time mb-0 ms-2" th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy')}"></p>
+                    </div>
+                    <p class="rating-content mt-1 mb-0 text-light" th:text="${review.content}"></p>
 
-
+                    </div>
+                </div>
             </div>
 
 

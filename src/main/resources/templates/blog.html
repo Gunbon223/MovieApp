@@ -7,10 +7,6 @@
 <div class="container bg-dark">
     <header th:insert="~{fragments/header.html :: header-frag}"></header>
 
-
-
-
-
     <section class="py-4">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
@@ -20,7 +16,7 @@
                 <div th:each="blog : ${listBlog.getContent()}" class="text-dark">
                     <a th:href="@{'/blogdetail/' + ${blog.id}+'/'+${blog.slug}}">
                         <div class="mt-4">
-                            <div class="bg-body-tertiary p-4 rounded text-dark">
+                            <div class="bg-dark-subtle p-4 rounded text-dark">
                                 <h5 th:text="${blog.title}"></h5>
                                 <p th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}"></p>
                                 <p class="mb-0" th:text="${blog.description}"></p>

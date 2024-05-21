@@ -14,8 +14,17 @@
     border-radius: 15px;
 }
 
+.mtb-50 {
+    margin-top: 90px;
+    margin-bottom: 100px;
+}
+
 body {
-    background-color:#424040 ;
+    background-color: #2a3439;
+}
+
+.bgn-light {
+    background-color: #2a3439;
 }
 
 a {
