@@ -30,13 +30,13 @@
                         <input type="email" class="form-control" id="email" name="email"  th:value="${session.currentUser.getEmail()} " disabled>
                     </div>
                         <a  class="btn btn-primary me-2" type="Submit">Sửa</a>
-
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-review">
+                            Đổi mật khẩu
+                        </button>
                     </div>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-review">
-                Đổi mật khẩu
-            </button>
+
         </div>
     </div>
 

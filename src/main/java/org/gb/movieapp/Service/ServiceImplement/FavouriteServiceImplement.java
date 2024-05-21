@@ -53,6 +53,11 @@ public class FavouriteServiceImplement implements FavouriteService {
         if (movie == null) {
             throw new BadRequestException("Không tìm thấy phim này !");
         }
+        if (favouriteRepository.findByUser_IdAndMovies_Id(user.getId(), request.getMovieId()) != null) {
+            throw new BadRequestException("Phim đã được thêm vào yêu thích");
+        }
+
+
         Favourites favourites = Favourites.builder()
                 .user(user)
                 .movies(movie)
@@ -71,13 +76,23 @@ public class FavouriteServiceImplement implements FavouriteService {
     public void deleteFavourite(int id) {
 
     }
+    @Override
+    public Favourites getFavouriteMovieByUserIdAndMovieId(int id) {
+        User user = (User) session.getAttribute("currentUser");
+        Favourites favourites = favouriteRepository.findByUser_IdAndMovies_Id(user.getId(), id);
+        if (favourites == null) {
+            return null;
+        }
+        return favourites;
+    }
+
 
     @Override
     public void deleteFavouriteByMovieIdAndUserId(int MovieId) {
         User user = (User) session.getAttribute("currentUser");
         Favourites favourites = favouriteRepository.findByUser_IdAndMovies_Id(user.getId(),MovieId);
         if (favourites == null) {
-            throw new BadRequestException("Favourite movie not found");
+            throw new BadRequestException("Phim chưa đươc thêm vào yêu thích");
         } else if (!favourites.getUser().getId().equals(user.getId())) {
             throw new BadRequestException("You cannot delete someone else's favourite movie");
         } else {

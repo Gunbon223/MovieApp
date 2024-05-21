@@ -15,5 +15,7 @@ public interface FavouriteService
     Favourites updateFavourite(FavouriteMovieRequest request, int id);
     void deleteFavourite(int id);
 
+    Favourites getFavouriteMovieByUserIdAndMovieId(int id);
+
     void deleteFavouriteByMovieIdAndUserId(int id);
 }

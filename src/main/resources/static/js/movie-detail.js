@@ -198,9 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    attachEventListeners();
-});
+
 const attachEventListeners = () => {
     const changeButtons = document.querySelectorAll(".btn-edit-review");
     const deleteButtons = document.querySelectorAll(".btn-delete-review");
@@ -277,7 +275,9 @@ const attachEventListeners = () => {
 }
 
 async function addFavourite(event) {
-    const movieId = event.target.getAttribute('data-id');
+    const button = event.target;
+    const movieId = button.getAttribute('data-id');
+    const isFavourite = button.getAttribute('data-favourite') ;
 
     const data = {
         movieId: movieId,
@@ -285,10 +285,30 @@ async function addFavourite(event) {
     }
 
     try {
-        let res = await axios.post("/api/favourites" , data);
-        toastr.success("Đã thêm vào danh sách yêu thích");
+        if (isFavourite) {
+            let res = await axios.delete(`/api/favourites/${movieId}`, data);
+            toastr.success("Removed from favourites");
+            button.textContent = 'Add to Favourite';
+            button.setAttribute('data-favourite', 'false');
+        } else {
+            let res = await axios.post("/api/favourites", data);
+            toastr.success("Added to favourites");
+            button.textContent = 'Remove from Favourite';
+            button.setAttribute('data-favourite', 'true');
+        }
     } catch (e) {
         console.log(e)
         toastr.error(e.response.data.message)
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    attachEventListeners();
+
+    const button = document.getElementById('add/remove');
+    if (data_favourite) {
+        button.textContent = 'Remove from Favourite';
+    } else {
+        button.textContent = 'Add to Favourite';
+    }
+});

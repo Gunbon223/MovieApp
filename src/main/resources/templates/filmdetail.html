@@ -28,10 +28,12 @@
                         </button>
                     </div>
                     <div class="col">
-                        <a >
-                        <button class="btn btn-lg btn-primary mb-4 rounded-pill" type="button" th:attr="data-id=${movie.id}" onclick="addFavourite(event)">
-                            Add to Favourite
-                        </button>
+                        <a>
+                            <button id="add/remove" class="btn btn-lg btn-primary mb-4 rounded-pill" type="button"
+                                    th:attr="data-id=${movie.id},data-favourite=${isFavourite}"
+                                    onclick="addFavourite(event)"
+                                    th:text="${isFavourite} ? 'Remove from Favourite' : 'Add to Favourite'">
+                            </button>
                         </a>
                     </div>
                     </div>
@@ -194,6 +196,7 @@
 
 
 <script th:inline="javascript">
+    const data_favourite = [[${isFavourite}]];
     const movie = [[${movie}]];
     const reviews = [[${listReview}]];
     const curUser = [[${session.currentUser}]];

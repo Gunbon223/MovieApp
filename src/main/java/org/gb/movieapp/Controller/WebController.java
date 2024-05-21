@@ -89,6 +89,14 @@ public class WebController {
         if (movie.getType() == MovieType.TVSHOWS)
             model.addAttribute("listEpisode", episodeService.episodesByMovieId(id));
 
+        if (favouriteService.getFavouriteMovieByUserIdAndMovieId(id) != null) {
+            model.addAttribute("isFavourite", true);
+            System.out.println("isFavourite");
+        }
+        else {
+            model.addAttribute("isFavourite", false);
+        }
+
         model.addAttribute("listSameType", movieService.findByTypeAndStatus(movie.getType(), true,1, 4));
         return "filmdetail";
     }

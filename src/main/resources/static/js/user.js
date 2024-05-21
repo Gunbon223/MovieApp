@@ -1,10 +1,12 @@
+const formUser = document.getElementById("form-user");
+const formPassword = document.getElementById("form-password");
+const nameValue = document.getElementById("name");
+const oldPasswordValue = document.getElementById("old-password");
+const newPasswordValue = document.getElementById("new-password");
+const rePasswordValue = document.getElementById("confirm-password");
+
 document.addEventListener('DOMContentLoaded', (event) => {
-    const formUser = document.getElementById("form-user");
-    const formPassword = document.getElementById("form-password");
-    const nameValue = document.getElementById("name");
-    const oldPasswordValue = document.getElementById("old-password");
-    const newPasswordValue = document.getElementById("new-password");
-    const rePasswordValue = document.getElementById("confirm-password");
+
 
     $('#form-user').validate({
         rules: {
@@ -120,7 +122,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             } catch (e)
             {
                 console.error(e);
-
                 toastr.error(e.response.data.message)
             }
         }
