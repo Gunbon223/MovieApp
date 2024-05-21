@@ -275,3 +275,20 @@ const attachEventListeners = () => {
         });
     });
 }
+
+async function addFavourite(event) {
+    const movieId = event.target.getAttribute('data-id');
+
+    const data = {
+        movieId: movieId,
+        userId: curUser.id
+    }
+
+    try {
+        let res = await axios.post("/api/favourites" , data);
+        toastr.success("Đã thêm vào danh sách yêu thích");
+    } catch (e) {
+        console.log(e)
+        toastr.error(e.response.data.message)
+    }
+}

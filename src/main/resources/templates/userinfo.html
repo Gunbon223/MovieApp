@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header-link">
+
+<body>
+<div class="container bg-dark">
+    <header th:insert="~{fragments/header.html :: header-frag}"></header>
+
+    <div class="row d-flex justify-content-center ">
+        <div class="w-90">
+            <h2 class="text-light">User Information</h2>
+            <form id="form-user" class="bg-light p-3 rounded bg-dark-subtle">
+                <div class="row">
+                    <div class="col-6 " >
+                        <div class="mb-3 d-flex justify-content-center">
+                            <a>
+                                <img id="avatar" class="rounded avatar-user" th:src="${session.currentUser.getAvatar()}" alt="avatar" style="" onclick="document.getElementById('fileInput').click()">
+                                <input id="fileInput" type="file" style="display: none;" onchange="loadFile(event)">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6" style="width: 40%">
+                    <div class="mb-3 form-group">
+                        <label for="name" class="form-label" >Name</label>
+                        <input type="text" class="form-control" id="name" name="name" th:value="${session.currentUser.getName()}" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label" >Email</label>
+                        <input type="email" class="form-control" id="email" name="email"  th:value="${session.currentUser.getEmail()} " disabled>
+                    </div>
+                        <a  class="btn btn-primary me-2" type="Submit">Sửa</a>
+
+                    </div>
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-review">
+                Đổi mật khẩu
+            </button>
+        </div>
+    </div>
+
+<!--    Modal-->
+    <div class="modal fade" id="modal-review" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md ">
+            <div class="modal-content  ">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Đổi mật khẩu</h1>
+                    <button type="button" class="btn-close text-danger " data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <form id="form-password" class="w-100">
+                            <div class="mb-3 form-group">
+                                <label for="old-password" class="form-label">Mật khẩu cũ</label>
+                                <input type="password" class="form-control" id="old-password" name="oldPassword">
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="new-password" class="form-label">Mật khẩu mới</label>
+                                <input type="password" class="form-control" id="new-password" name="newPassword">
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="confirm-password" class="form-label">Xác nhận mật khẩu</label>
+                                <input type="password" class="form-control" id="confirm-password" name="rePassword">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btn-change">Đổi mật khẩu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="fragments/footer.html :: footer-ul"></div>
+    <div th:insert="fragments/header.html :: footer-link"></div>
+
+</div>
+
+
+<script>
+    function loadFile(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('avatar');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js" integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="/js/user.js"></script>
+</body>
+</html>

@@ -76,9 +76,7 @@ public class ReviewServiceImplement implements ReviewService {
         reviews.setRating(request.getRating());
         reviews.setMovies(movie);
         reviews.setUpdatedAt(java.time.LocalDateTime.now());
-
         return reviewRepository.save(reviews);
-
 
     }
 
@@ -92,7 +90,6 @@ public class ReviewServiceImplement implements ReviewService {
         if(!reviews.getUser().getId().equals(user.getId())){
             throw new ResourceNotFoundException("Bạn không thể chỉnh sửa review của người khác");
         }
-
         reviewRepository.delete(reviews);
     }
 }

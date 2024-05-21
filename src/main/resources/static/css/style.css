@@ -27,6 +27,16 @@ body {
     background-color: #2a3439;
 }
 
+.avatar-user {
+    width: 350px;
+
+}
+.avatar-user:hover {
+    transform: scale(1.1);
+    transition: all 0.3s;
+    border-radius: 15px;
+}
+
 a {
     color: #ffffff;
     text-decoration: none;

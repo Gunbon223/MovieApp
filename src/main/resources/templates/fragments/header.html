@@ -61,9 +61,9 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-dark">
                                             <li><a class="dropdown-item" href="/login" th:if="${session.currentUser.role == 'Admin' }">Admin page</a></li>
-                                            <li><a class="dropdown-item" href="/">User Info</a></li>
+                                            <li><a class="dropdown-item" href="/user-info">User Info</a></li>
                                             <li><a class="dropdown-item" href="/">Recently watch</a></li>
-                                            <li><a class="dropdown-item" href="/">Your favourite</a></li>
+                                            <li><a class="dropdown-item" href="/favourite">Your favourite</a></li>
                                             <li><a class="dropdown-item" id="logout">Log out</a></li>
 
                                         </ul>

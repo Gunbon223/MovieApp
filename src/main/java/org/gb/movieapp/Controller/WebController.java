@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gb.movieapp.Model.Enum.MovieType;
 import org.gb.movieapp.Service.*;
 import org.gb.movieapp.entites.Blogs;
+import org.gb.movieapp.entites.Favourites;
 import org.gb.movieapp.entites.Movies;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ public class WebController {
     private final EpisodeService episodeService;
     private final ReviewService reviewService;
     private final CommentService commentService;
+    private final FavouriteService favouriteService;
 
     @GetMapping("/")
     public String getHomePage(Model model) {
@@ -101,4 +103,16 @@ public class WebController {
         return "register";
     }
 
+    @GetMapping("/favourite")
+    public String getFavourite(Model model)
+    {
+        model.addAttribute("listMovie", favouriteService.getFavourite());
+        return "/favourite";
+    }
+
+    @GetMapping("/user-info")
+    public String getUserInfo()
+    {
+        return "userinfo";
+    }
 }
