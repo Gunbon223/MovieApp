@@ -1,8 +1,15 @@
 package org.gb.movieapp.Service.ServiceImplement;
 
+import com.github.slugify.Slugify;
+import jakarta.servlet.http.HttpSession;
+import org.gb.movieapp.Exception.BadRequestException;
+import org.gb.movieapp.Exception.ResourceNotFoundException;
+import org.gb.movieapp.Model.Request.UpsertBlogRequest;
 import org.gb.movieapp.Repository.BlogRepository;
 import org.gb.movieapp.Service.BlogService;
+import org.gb.movieapp.Utils.RandomColor;
 import org.gb.movieapp.entites.Blogs;
+import org.gb.movieapp.entites.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +22,8 @@ import java.util.List;
 public class BlogServiceImplements implements BlogService {
     @Autowired
     BlogRepository blogRepository;
+    @Autowired
+    HttpSession session;
 
     @Override
     public Page<Blogs> findByStatus(boolean status,  int size) {
@@ -45,6 +54,67 @@ public class BlogServiceImplements implements BlogService {
     @Override
     public Blogs getByIdAndSlug(String slug, int id) {
         return blogRepository.findByIdAndSlug(id, slug);
+    }
+
+    @Override
+    public Blogs createBlog(UpsertBlogRequest request) {
+        Slugify slg = Slugify.builder().build();
+        String color = RandomColor.getRandomColor();
+        String title = request.getTitle();
+        Blogs blogs = new Blogs();
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
+        }
+
+        blogs.setTitle(request.getTitle());
+        blogs.setDescription(request.getDescription());
+        blogs.setContent(request.getContent());
+        blogs.setSlug(slg.slugify(request.getTitle()));
+        blogs.setStatus(request.getIsStatus());
+        blogs.setUser(user);
+        blogs.setThumbnail("https://placehold.co/600x400/"+color+ "/FFF" + "?text=" + String.valueOf(title.charAt(0)).toUpperCase());
+        blogs.setCreatedAt(java.time.LocalDateTime.now());
+        blogs.setUpdatedAt(java.time.LocalDateTime.now());
+
+        return blogRepository.save(blogs);
+    }
+
+    @Override
+    public Blogs updateBlog(int id, UpsertBlogRequest updatedBlog) {
+        Blogs blog = blogRepository.findById(id);
+        if (blog == null) {
+            throw new ResourceNotFoundException("Không tìm thấy blog");
+        }
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
+        }
+        if (!blog.getUser().getId().equals(user.getId())) {
+            throw new BadRequestException("Bạn không thể chỉnh sửa blog của người khác");
+        }
+        blog.setTitle(updatedBlog.getTitle());
+        blog.setDescription(updatedBlog.getDescription());
+        blog.setContent(updatedBlog.getContent());
+        blog.setStatus(updatedBlog.getIsStatus());
+        blog.setUpdatedAt(java.time.LocalDateTime.now());
+        return blogRepository.save(blog);
+    }
+
+    @Override
+    public void deleteBlog(int id) {
+        Blogs blog = blogRepository.findById(id);
+        if (blog == null) {
+            throw new ResourceNotFoundException("Không tìm thấy blog");
+        }
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
+        }
+        if (!blog.getUser().getId().equals(user.getId())) {
+            throw new BadRequestException("Bạn không thể xóa blog của người khác");
+        }
+        blogRepository.delete(blog);
     }
 
 }

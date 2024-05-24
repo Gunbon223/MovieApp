@@ -173,7 +173,7 @@
         }
         catch (error) {
             console.log(error);
-            toastr.error("Đăng kí thất bại");
+            toastr.error(e.response.data.message);
         }
 
     });

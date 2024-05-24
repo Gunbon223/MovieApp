@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -16,12 +16,21 @@
     <link rel="stylesheet" href="/admin-assets/dist/css/adminlte.min.css" />
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="/admin-assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+    <!--    toastr-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
 
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css" />
 
     <link rel="stylesheet" href="/admin-assets/plugins/select2/css/select2.min.css" />
     <link rel="stylesheet" href="/admin-assets/dist/css/style.css">
+
+<!--    summer note-->
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -43,7 +52,7 @@
                 <a class="nav-link py-0 d-flex align-items-center" data-toggle="dropdown" href="#">
                     <div class="user-panel">
                         <div class="image">
-                            <img src="../../dist/img/user2-160x160.jpg" class="img-circle border" alt="User Image">
+                            <img th:src="${session.currentUser.avatar}" class="img-circle border" alt="User Image">
                         </div>
                     </div>
                 </a>
@@ -160,106 +169,70 @@
         </div>
 
         <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row py-2">
-                    <div class="col-6">
-                        <button type="button" class="btn btn-default">
-                            <i class="fas fa-chevron-left"></i> Quay lại
-                        </button>
-                        <button type="button" class="btn btn-info px-4">
-                            Lưu
-                        </button>
-
-                    </div>
-
-
-                </div>
-
+        <section class="content" >
+            <form id="blogForm">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label>Tiêu đề</label>
-                                            <input type="text" class="form-control" id="title" />
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Nội dung</label>
-                                            <textarea id="content"></textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Mô tả ngắn</label>
-                                            <textarea id="description" class="form-control" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Trạng thái</label>
-                                            <select id="status" class="form-control">
-                                                <option value="0">
-                                                    Nháp
-                                                </option>
-                                                <option value="1">
-                                                    Công khai
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="thumbnail-preview-container mb-3">
-                                                <img src="" alt="" id="thumbnail" />
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="form-group col-10">
+                                <label for="title">Title</label>
+                                <input name="title" type="text" class="form-control" id="title" placeholder="Enter title">
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="status">Status</label>
+                                <select id="status" class="form-control ">
+                                    <option value="0">Nháp</option>
+                                    <option value="1">Công Khai</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" type="text" class="form-control" id="description" placeholder="Enter description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <p class="text-bold">Content</p>
+                            <div id="summernote"></div>
+                        </div>
+
                 </div>
-            </div>
+                    <div class="col-4">
+                        <p class="text-bold">Thumbnail</p>
+                        <img src="https://placehold.co/600x400" class="img-fluid rounded" alt="Responsive image">
+                        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+
+                    </div>
+
+                </div>
+            </form>
         </section>
 
-        <div class="modal fade" id="modal-xl" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Extra Large Modal</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>One fine body…</p>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="button" class="btn btn-primary">
-                            Save changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 
 <!-- jQuery -->
-<script src="/admin-assets/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js" integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- Bootstrap 4 -->
 <script src="/admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- overlayScrollbars -->
 <script src="/admin-assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+<!--summer note-->
+<!-- include summernote css/js -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!--Jquery validate-->
+
 
 <!-- AdminLTE App -->
 <script src="/admin-assets/dist/js/adminlte.js"></script>
@@ -270,19 +243,100 @@
 
 <script src="/admin-assets/plugins/select2/js/select2.full.min.js"></script>
 
+<script th:inline="javascript">
+    const curUser = [[${session.currentUser}]];
+</script>
+
+
 <script>
     //Initialize Select2 Elements
     $(".select2").select2();
 
-    // Initialize editor
-    const easyMDE = new EasyMDE({
-        element: document.getElementById("content"),
-        spellChecker: false,
-        maxHeight: "500px",
-        renderingConfig: {
-            codeSyntaxHighlighting: true,
-        },
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            placeholder: 'Enter Content',
+            tabsize: 2,
+            height: 300,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: true                  // set focus to editable area after initializing summernote
+        }).summernote('code', content);
     });
+</script>
+
+<script>
+    const title = document.getElementById('title');
+    const description = document.getElementById('description');
+    const status = document.getElementById('status');
+    const content = document.getElementById('summernote');
+
+    $('#blogForm').validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 5
+            },
+            description: {
+                required: true,
+                minlength: 10
+            },
+        },
+        messages: {
+            title: {
+                required: "Please enter a title",
+                minlength: "Your title must consist of at least 5 characters"
+            },
+            description: {
+                required: "Please enter a description",
+                minlength: "Your description must consist of at least 10 characters"
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const formBlog = document.getElementById('blogForm');
+
+        formBlog.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!$('#blogForm').valid()) {
+                return;
+            }
+
+            const data = {
+                title: title.value,
+                description: description.value,
+                status: status.value === '1' ? true : false,
+                content: $('#summernote').summernote('code'),
+            };
+            console.log(data)
+
+            try {
+                const res = await axios.post(`/api/admin/blog`, data,);
+                toastr.success('Tạo blog successfully');
+                setTimeout(() => {
+                    window.location.href = '/admin/blog';
+                }, 2000);
+            } catch (e) {
+                console.log(e)
+                toastr.error(e.response.data.message);
+            }
+        });
+
+
+    });
+
+
 </script>
 </body>
 

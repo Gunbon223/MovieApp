@@ -1,5 +1,6 @@
 package org.gb.movieapp.Service;
 
+import org.gb.movieapp.Model.Request.UpsertBlogRequest;
 import org.gb.movieapp.entites.Blogs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,9 @@ public interface BlogService {
     Blogs getById(int id);
     Blogs getByIdAndSlug(String title, int id);
 
+    Blogs createBlog(UpsertBlogRequest request);
+
+    Blogs updateBlog(int id, UpsertBlogRequest request);
+
+    void deleteBlog(int id);
 }

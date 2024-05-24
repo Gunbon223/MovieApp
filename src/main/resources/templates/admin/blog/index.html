@@ -186,7 +186,7 @@
                                     <tbody >
                                     <tr th:each="blog : ${blogs}">
                                         <td>
-                                            <a th:text="${blog.title}">Khai giảng khóa
+                                            <a class="text" th:href="@{/admin/blog/{id} (id=${blog.getId()})}" th:text="${blog.title}">Khai giảng khóa
                                                 Java Spring Boot 12A
                                                 - song song 2 hình
                                                 thức offline /
@@ -196,7 +196,7 @@
                                         <td>
                                             <a th:href="@{/admin/blog/own-blogs/{id} (id=${blog.user.id})}" th:text="${blog.getUser().getName()}"></a>
                                         </td>
-                                        <td th:text="${blog.getStatus() ? 'Công khai' : 'Nháp' }">Công khai</td>
+                                        <td th:text="${blog.getStatus() ?  'Công khai':'Nháp'  }">Công khai</td>
                                         <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
                                     </tr>
                                     </tbody>
