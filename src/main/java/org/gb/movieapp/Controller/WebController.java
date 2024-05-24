@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.gb.movieapp.Model.Enum.MovieType;
 import org.gb.movieapp.Service.*;
 import org.gb.movieapp.entites.Blogs;
-import org.gb.movieapp.entites.Favourites;
 import org.gb.movieapp.entites.Movies;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ public class WebController {
         model.addAttribute("listBlog", blogService.findByStatus(true,4));
         model.addAttribute("title", "Home");
 
-        return "index";
+        return "/web/index";
     }
 
     @GetMapping("/tvshow")
@@ -41,17 +40,17 @@ public class WebController {
         model.addAttribute("pageData", movieService.findByTypeAndStatus(MovieType.TVSHOWS,true, page,  size));
         model.addAttribute("currentPage", page);
 
-        return "tvshow";
+        return "/web/tvshow";
     }
 
-    @GetMapping("/movie")
+    @GetMapping("/web/movie")
     public String getMovies(Model model,
                                @RequestParam(required = false ,defaultValue = "1") int page,
                                @RequestParam(required = false ,defaultValue = "12") int size) {
         model.addAttribute("pageData", movieService.findByTypeAndStatus(MovieType.MOVIE,true, page, size));
         model.addAttribute("currentPage", page);
 
-        return "movie";
+        return "/web/movie";
     }
 
     @GetMapping("/movietheater")
@@ -60,7 +59,7 @@ public class WebController {
                                @RequestParam(required = false ,defaultValue = "12") int size) {
         model.addAttribute("pageData", movieService.findByTypeAndStatus(MovieType.FILM,true, page, size));
         model.addAttribute("currentPage", page);
-        return "movietheater";
+        return "/web/movietheater";
     }
     @GetMapping("/blog")
     public String getBlog(Model model,
@@ -68,7 +67,7 @@ public class WebController {
                                   @RequestParam(required = false ,defaultValue = "10") int size) {
         model.addAttribute("listBlog", blogService.findAllByStatus(true, page, size));
         model.addAttribute("currentPage", page);
-        return "blog";
+        return "/web/blog";
     }
 
 
@@ -78,7 +77,7 @@ public class WebController {
         Blogs blogs = blogService.getById(id);
         model.addAttribute("listReview", commentService.getByBLog(blogs));
 
-        return "blogdetail";
+        return "/web/blogdetail";
     }
 
     @GetMapping("/moviedetail/{id}/{slug}")
@@ -98,29 +97,31 @@ public class WebController {
         }
 
         model.addAttribute("listSameType", movieService.findByTypeAndStatus(movie.getType(), true,1, 4));
-        return "filmdetail";
+        return "/web/filmdetail";
     }
 
     @GetMapping("/login")
     public String getLogin() {
-        return "login";
+        return "/web/login";
     }
 
     @GetMapping("/register")
     public String getRegister() {
-        return "register";
+        return "/web/register";
     }
 
     @GetMapping("/favourite")
     public String getFavourite(Model model)
     {
         model.addAttribute("listMovie", favouriteService.getFavourite());
-        return "/favourite";
+        return "/web/favourite";
     }
 
     @GetMapping("/user-info")
     public String getUserInfo()
     {
-        return "userinfo";
+        return "/web/userinfo";
     }
+
+
 }

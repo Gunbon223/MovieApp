@@ -10,12 +10,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("AuthenticationInterceptor");
-        User user = (User) request.getSession().getAttribute("curUser");
+        User user = (User) request.getSession().getAttribute("currentUser");
         if (user == null) {
+            System.out.println("AuthenticationInterceptor");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
-        return  true;
+        return true;
     }
 }

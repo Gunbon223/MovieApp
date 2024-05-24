@@ -13,9 +13,5 @@ public class BeanConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Component
-    public static class AuthenticationInterceptor implements HandlerInterceptor {
-
-    }
 }
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{web/fragments/header :: header-link}">
+    <title th:text="${title}">Default Title</title>
+</head>
+<body>
+<div class="container bg-dark text-white">
+
+    <header th:insert="~{web/fragments/header.html :: header-frag}"></header>
+
+    <div class="container-bg">
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-2" >Phim hot</h3>
+                    <a href="/static">Xem thêm</a>
+                </div>
+                <div class="row">
+                    <div th:each="movie : ${listHotMovie.getContent()}" class="col-3">
+                        <div class="rounded overflow-hidden" >
+                            <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
+                            <img th:src="${movie.getPoster}" class="card-img-top" alt="..." style=" height: 400px;object-fit: cover;border-radius: 15px">
+                            <h5 class="card-title" th:text="${movie.getName}"></h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-2" >Phim chiếu rạp gần đây</h3>
+                    <a href="/movietheater">Xem thêm</a>
+                </div>
+                <div class="row">
+                    <div th:each="movie : ${listFilm.getContent()}" class="col-2">
+                        <div class="rounded overflow-hidden" >
+                            <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
+                                <img th:src="${movie.poster}" class="card-img-top" alt="..." style=" height: 300px;object-fit: cover;border-radius: 15px">
+                                <h5 class="card-title" th:text="${movie.name}"></h5>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-2" >Phim bộ gần đây</h3>
+                    <a href="/movie">Xem thêm</a>
+                </div>
+                <div class="row">
+                        <div th:each="movie : ${listTv.getContent()}" class="col-2">
+                            <div class="rounded overflow-hidden" >
+                                <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
+                                <img th:src="${movie.poster}" class="card-img-top" alt="..." style=" height: 300px;object-fit: cover;border-radius: 15px">
+                                <h5 class="card-title" th:text="${movie.name}"></h5>
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+        </section>
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-2" >Phim lẻ gần đây</h3>
+                    <a href="/tvshow">Xem thêm</a>
+                </div>
+                <div class="row">
+                    <div th:each="movie : ${listMovie.getContent()}" class="col-2">
+                        <div class="rounded overflow-hidden" >
+                            <a th:href="@{'/moviedetail/' + ${movie.id}+'/'+${movie.slug}}">
+
+                            <img th:src="${movie.poster}" class="card-img-top" alt="..." style=" height: 300px;object-fit: cover;border-radius: 15px">
+                            <h5 class="card-title" th:text="${movie.name}"></h5>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="p-2" >Tin tức</h3>
+                    <a href="./blog-detail.html">Xem thêm</a>
+                </div>
+                <div class="row">
+                    <div th:each="blog : ${listBlog.getContent()}" class="col-6 text-dark">
+                        <a th:href="@{'/blogdetail/' + ${blog.id}+'/'+${blog.slug}}">
+                            <div class="mt-4">
+                                <div class="bg-body-tertiary p-4 rounded text-dark">
+                                    <h5 th:text="${blog.title}"></h5>
+                                    <p th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}"></p>
+                                    <p class="mb-0" th:text="${blog.description}"></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </section>
+    </div>
+    <div th:insert="~{web/fragments/footer.html :: footer-ul}"></div>
+
+
+</div>
+<div th:insert="~{web/fragments/header.html :: footer-link}"></div>
+
+</body>
+</html>

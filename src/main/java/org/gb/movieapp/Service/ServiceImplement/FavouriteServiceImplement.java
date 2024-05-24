@@ -79,6 +79,10 @@ public class FavouriteServiceImplement implements FavouriteService {
     @Override
     public Favourites getFavouriteMovieByUserIdAndMovieId(int id) {
         User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
+        }
+
         Favourites favourites = favouriteRepository.findByUser_IdAndMovies_Id(user.getId(), id);
         if (favourites == null) {
             return null;
