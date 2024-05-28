@@ -109,6 +109,10 @@ public class MovieServiceImplement implements MovieService
     public Movies updateMovie(UpsertMovieRequest request, int id) {
         Slugify slg = Slugify.builder().build();
         Movies movies = movieAppRepository.findById(id);
+        if (movies == null) {
+            throw new ResourceNotFoundException("Movie not found with id " + id);
+        }
+        movies.setId(id);
         movies.setName(request.getName());
         movies.setDescription(request.getDescription());
         movies.setType(MovieType.valueOf(request.getType()));
@@ -121,6 +125,7 @@ public class MovieServiceImplement implements MovieService
         movies.setGenres(genreService.getGenreByIds(request.getGenres()));
         movies.setDirectors(directorService.getDirectorByIds(request.getDirectors()));
         movies.setUpdatedAt(LocalDateTime.now());
+
         return movieAppRepository.save(movies);
     }
 

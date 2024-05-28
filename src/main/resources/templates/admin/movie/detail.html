@@ -203,7 +203,7 @@
                         <div class="form-group">
 
                             <p class="text-bold">Thumbnail</p>
-                            <img id="avatar" class="rounded avatar-user" th:src="${movie.getPoster()}" alt="avatar" style="" onclick="document.getElementById('fileInput').click()">
+                            <img id="avatar" class="rounded avatar-user col-6" th:src="${movie.getPoster()}" alt="avatar" style="" onclick="document.getElementById('fileInput').click()">
                             <input id="fileInput" type="file" style="display: none;" onchange="loadFile(event)">
                         </div>
                     </div>
@@ -358,7 +358,7 @@
         formData.append('avatar', files[0]);
 
         // Send a POST request to the API
-        axios.post('/api/admin/movie/' + blogId +'/upload', formData, {
+        axios.post('/api/admin/movies/' + movie.id +'/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -456,7 +456,7 @@
             console.log(data)
 
             try {
-                const res = await axios.put(`/api/admin/movies/` + curUser.id , data,);
+                const res = await axios.put(`/api/admin/movies/` + movie.id , data,);
                 toastr.success('Change movie successfully');
                 setTimeout(() => {
                     window.location.href = '/admin/movie';
