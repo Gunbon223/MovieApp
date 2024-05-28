@@ -5,5 +5,9 @@ import org.gb.movieapp.entites.Genre;
 import java.util.List;
 
 public interface GenreService {
-    List<Genre> getGenresByMovieID(int movieId);
+    List<Genre> getAllGenres();
+
+    Genre getGenreById(int id);
+
+    List<Genre> getGenreByIds(Integer[] ids);
 }

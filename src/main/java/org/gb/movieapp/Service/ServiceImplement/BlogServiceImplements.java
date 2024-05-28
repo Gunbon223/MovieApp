@@ -7,6 +7,7 @@ import org.gb.movieapp.Exception.ResourceNotFoundException;
 import org.gb.movieapp.Model.Request.UpsertBlogRequest;
 import org.gb.movieapp.Repository.BlogRepository;
 import org.gb.movieapp.Service.BlogService;
+import org.gb.movieapp.Service.CloudinaryService;
 import org.gb.movieapp.Utils.RandomColor;
 import org.gb.movieapp.entites.Blogs;
 import org.gb.movieapp.entites.User;
@@ -15,8 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BlogServiceImplements implements BlogService {
@@ -24,6 +27,8 @@ public class BlogServiceImplements implements BlogService {
     BlogRepository blogRepository;
     @Autowired
     HttpSession session;
+    @Autowired
+    CloudinaryService cloudinaryService;
 
     @Override
     public Page<Blogs> findByStatus(boolean status,  int size) {
@@ -115,6 +120,24 @@ public class BlogServiceImplements implements BlogService {
             throw new BadRequestException("Bạn không thể xóa blog của người khác");
         }
         blogRepository.delete(blog);
+    }
+
+    @Override
+    public String uploadThumbnail(int id, MultipartFile file) {
+        Blogs blog = blogRepository.findById(id);
+        if (blog == null) {
+            throw new ResourceNotFoundException("Không tìm thấy blog");
+        }
+        try {
+            Map data = cloudinaryService.uploadFile(file, "avatar");
+            String url = (String) data.get("url");
+            blog.setThumbnail(url);
+            blogRepository.save(blog);
+            return url;
+
+        } catch (Exception e) {
+            throw new BadRequestException("Không thể upload ảnh");
+        }
     }
 
 }

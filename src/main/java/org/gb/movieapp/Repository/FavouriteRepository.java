@@ -13,4 +13,6 @@ public interface FavouriteRepository extends JpaRepository<Favourites,Integer> {
     Favourites findByUser_IdAndMovies_Id(int userId, int movieId);
 
     Favourites findByUser_Id(int id);
+    void deleteByMovies_Id(Integer movieId);
+
 }

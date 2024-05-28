@@ -198,7 +198,8 @@
                     </div>
                     <div class="col-4">
                         <p class="text-bold">Thumbnail</p>
-                        <img th:src="${blog.thumbnail}" class="img-fluid rounded" alt="Responsive image">
+                        <img id="avatar" class="rounded avatar-user" th:src="${blog.getThumbnail()}" alt="avatar" style="" onclick="document.getElementById('fileInput').click()">
+                        <input id="fileInput" type="file" style="display: none;" onchange="loadFile(event)">
                         <button type="submit" class="btn btn-primary mt-4">Sửa</button>
                         <button type="button" id="delete"  class="btn btn-danger ml-2 mt-4">
                             Xoá
@@ -266,12 +267,50 @@
             focus: true                  // set focus to editable area after initializing summernote
         }).summernote('code', content);
     });
+
+    function loadFile(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('avatar');
+            output.src = reader.result;
+        };
+        console.log(event.target.files[0])
+    }
+
+    // JavaScript
+    const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', function (event) {
+        const files = event.target.files;
+
+        // Create a FormData object and append the file
+        var formData = new FormData();
+        formData.append('avatar', files[0]);
+
+        // Send a POST request to the API
+        axios.post('/api/admin/blog/' + blogId +'/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(function (response) {
+            console.log(response);
+            toastr.success("Cập nhật thumbnail thành công");
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        }).catch(function (e) {
+            console.error(e);
+            toastr.error(e.response.data.message);
+        });
+    });
+
+
+
     </script>
         <script>
 
         const title = document.getElementById('title');
         const description = document.getElementById('description');
-        const status = document.getElementById('status');
+        let status = document.getElementById('status').value === "1";
         const content = document.getElementById('summernote');
         const deleteBtn = document.getElementById('delete');
 
@@ -319,11 +358,10 @@
             if (!$('#blogForm').valid()) {
                 return;
             }
-
                 const data = {
                 title: title.value,
                 description: description.value,
-                status: status.value === '1' ? true : false,
+                status: status,
                 content: content.value,
             };
             try {

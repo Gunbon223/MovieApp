@@ -31,5 +31,5 @@ public interface MovieAppRepository extends JpaRepository<Movies,Integer> {
     Page<Movies> findByType(MovieType type, Pageable pageable);
 
 
-
+    List<Movies> findAllByOrderByCreatedAtDesc();
 }

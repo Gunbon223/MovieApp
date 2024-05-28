@@ -267,7 +267,7 @@
 <script>
     const title = document.getElementById('title');
     const description = document.getElementById('description');
-    const status = document.getElementById('status');
+    let status = document.getElementById('status').value === "1";
     const content = document.getElementById('summernote');
 
     $('#blogForm').validate({
@@ -316,7 +316,7 @@
             const data = {
                 title: title.value,
                 description: description.value,
-                status: status.value === '1' ? true : false,
+                status: status,
                 content: $('#summernote').summernote('code'),
             };
             console.log(data)

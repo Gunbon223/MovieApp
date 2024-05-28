@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 public interface DirectorRepository extends JpaRepository<Directors,Integer> {
+    Directors findByName(String name);
+    Directors findById(int id);
 }

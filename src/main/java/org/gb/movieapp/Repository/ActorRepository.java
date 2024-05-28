@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 
 public interface ActorRepository extends JpaRepository<Actors,Integer> {
+    Actors findByName(String name);
+    Actors findById(int id);
 }

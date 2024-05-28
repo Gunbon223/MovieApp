@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 public interface CountryRepository extends JpaRepository<Country,Integer> {
+    Country findByName(String name);
+    Country findById(int id);
 }

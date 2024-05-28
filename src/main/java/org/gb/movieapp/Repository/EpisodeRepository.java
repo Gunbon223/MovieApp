@@ -12,4 +12,5 @@ public interface EpisodeRepository extends JpaRepository<Episodes,Integer>
     List<Episodes> findEpisodesByMovies(Movies movies);
     List<Episodes> findByMovies(Movies movie);
 
+    void deleteByMovies_Id(Integer movieId);
 }
