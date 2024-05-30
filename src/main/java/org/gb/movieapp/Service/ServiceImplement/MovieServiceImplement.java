@@ -159,6 +159,10 @@ public class MovieServiceImplement implements MovieService
             throw new BadRequestException("Không thể upload ảnh");
         }
     }
+    @Override
+    public Movies getMovie(Integer id, String slug, Boolean status) {
+        return movieAppRepository.findByIdAndSlugAndStatus(id, slug, status).orElse(null);
+    }
 
     }
 

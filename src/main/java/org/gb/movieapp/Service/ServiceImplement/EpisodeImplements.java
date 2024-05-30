@@ -93,4 +93,18 @@ public class EpisodeImplements implements EpisodeService {
         }
     }
 
+    @Override
+    public Episodes getEpisode(Integer movieId, String tap) {
+        if (tap.equals("full")) {
+            return episodesRepository
+                    .findByMovies_IdAndMovies_StatusAndOrders(movieId, true, 1)
+                    .orElse(null);
+        } else {
+            return episodesRepository
+                    .findByMovies_IdAndMovies_StatusAndOrders(movieId, true, Integer.parseInt(tap))
+                    .orElse(null);
+        }
+    }
+
+
 }

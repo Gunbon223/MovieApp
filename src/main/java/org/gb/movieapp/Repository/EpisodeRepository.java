@@ -5,6 +5,7 @@ import org.gb.movieapp.entites.Movies;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface EpisodeRepository extends JpaRepository<Episodes,Integer>
@@ -15,4 +16,6 @@ public interface EpisodeRepository extends JpaRepository<Episodes,Integer>
     Episodes findById(int id);
 
     void deleteByMovies_Id(Integer movieId);
+
+    Optional<Episodes> findByMovies_IdAndMovies_StatusAndOrders(Integer movieId, boolean b, int i);
 }

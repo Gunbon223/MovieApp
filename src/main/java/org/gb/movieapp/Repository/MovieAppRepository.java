@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieAppRepository extends JpaRepository<Movies,Integer> {
     List<Movies> findByName(String name);
@@ -32,4 +33,6 @@ public interface MovieAppRepository extends JpaRepository<Movies,Integer> {
 
 
     List<Movies> findAllByOrderByCreatedAtDesc();
+
+    Optional<Movies> findByIdAndSlugAndStatus(Integer id, String slug, Boolean status);
 }

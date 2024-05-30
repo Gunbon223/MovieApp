@@ -274,10 +274,27 @@ const attachEventListeners = () => {
     });
 }
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    attachEventListeners();
+
+    const button = document.getElementById('add/remove');
+    if (data_favourite) {
+        button.textContent = 'Remove from Favourite';
+    } else {
+        button.textContent = 'Add to Favourite';
+    }
+});
+
 async function addFavourite(event) {
     const button = event.target;
     const movieId = button.getAttribute('data-id');
-    const isFavourite = button.getAttribute('data-favourite') ;
+    const isFavourite = button.getAttribute('data-favourite') === 'true';
+
+    if (!curUser) {
+        toastr.error("Vui lòng đăng nhập để thêm vào yêu thích");
+        return;
+    }
 
     const data = {
         movieId: movieId,
@@ -287,7 +304,7 @@ async function addFavourite(event) {
     try {
         if (isFavourite) {
             let res = await axios.delete(`/api/favourites/${movieId}`, data);
-            toastr.success("Removed from favourites");
+            toastr.error("Removed from favourites");
             button.textContent = 'Add to Favourite';
             button.setAttribute('data-favourite', 'false');
         } else {
@@ -301,14 +318,3 @@ async function addFavourite(event) {
         toastr.error(e.response.data.message)
     }
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    attachEventListeners();
-
-    const button = document.getElementById('add/remove');
-    if (data_favourite) {
-        button.textContent = 'Remove from Favourite';
-    } else {
-        button.textContent = 'Add to Favourite';
-    }
-});

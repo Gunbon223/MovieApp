@@ -27,4 +27,6 @@ public interface MovieService {
     void deleteMovie(Integer movieId);
 
     String uploadThumbnail(int id, MultipartFile avatar);
+
+    Movies getMovie(Integer id, String slug, Boolean status);
 }

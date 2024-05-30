@@ -20,4 +20,6 @@ public interface EpisodeService {
     void deleteEpisode(int episodeId);
 
     String uploadVideo(int episodeId, MultipartFile file);
+
+    Episodes getEpisode(Integer movieId, String tap);
 }

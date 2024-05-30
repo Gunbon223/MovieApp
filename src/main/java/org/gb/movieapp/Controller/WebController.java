@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.gb.movieapp.Model.Enum.MovieType;
 import org.gb.movieapp.Service.*;
 import org.gb.movieapp.entites.Blogs;
+import org.gb.movieapp.entites.Episodes;
 import org.gb.movieapp.entites.Movies;
+import org.gb.movieapp.entites.Reviews;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -90,7 +94,6 @@ public class WebController {
 
         if (favouriteService.getFavouriteMovieByUserIdAndMovieId(id) != null) {
             model.addAttribute("isFavourite", true);
-            System.out.println("isFavourite");
         }
         else {
             model.addAttribute("isFavourite", false);
@@ -122,6 +125,40 @@ public class WebController {
     {
         return "/web/userinfo";
     }
+
+
+
+    // http://localhost:8080/xem-phim/99/a-passage-to-india?tap=1
+    // http://localhost:8080/xem-phim/90/the-sun-also-rises?tap=full
+    @GetMapping("/xem-phim/{id}/{slug}")
+    public String getXemPhimPage(Model model,
+                                 @PathVariable Integer id,
+                                 @PathVariable String slug,
+                                 @RequestParam String tap) {
+        Movies movie = movieService.getMovie(id, slug, true);
+        model.addAttribute("relatedMovies", movieService.findByTypeAndStatus(movie.getType(), true,1, 4));
+        List<Episodes> episodes = episodeService.getEpisodesByMovieId(id);
+        model.addAttribute("movie", movie);
+        model.addAttribute("episodes", episodes);
+        Episodes currentEpisode = episodeService.getEpisode(id, tap);
+
+        model.addAttribute("currentEpisode", currentEpisode);
+        model.addAttribute("listReview", reviewService.findByMovies(movie));
+
+        if (movie.getType() == MovieType.TVSHOWS)
+            model.addAttribute("listEpisode", episodeService.episodesByMovieId(id));
+
+        if (favouriteService.getFavouriteMovieByUserIdAndMovieId(id) != null) {
+            model.addAttribute("isFavourite", true);
+        }
+        else {
+            model.addAttribute("isFavourite", false);
+        }
+
+        return "web/xemphim";
+    }
+
+
 
 
 }
