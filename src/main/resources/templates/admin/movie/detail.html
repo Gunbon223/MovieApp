@@ -267,8 +267,94 @@
             </form>
         </section>
 
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-body">
+                        <h4 class="mb-3">Danh sách tập phim</h4>
+                        <button type="button" class="mb-3 btn btn-primary" data-toggle="modal" data-target="#addEpisodeModal">Thêm tập phim</button>                        <table class="table table-bordered table-hover bg-light " id="table-blog">
+                            <thead>
+                            <tr>
+                                <th>TT</th>
+                                <th>Tên tập phim</th>
+                                <th>Thời lượng</th>
+                                <th>Url phim</th>
+                                <th>Thời gian tạo</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="episode, iterStat : ${episodes}">
+                                <td th:text="${episode.orders}">1</td>
+                                <td th:text="${episode.name}">Tập 1</td>
+                                <td th:text="${episode.duration}">1h30</td>
+                                <td th:text="${episode.getVideo_url()}">url</td>
+                                <td th:text="${episode.getCreatedAt()}">2021-10-10</td>
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="modal" th:attr="data-target='#trailerModal'+${episode.orders}"><i class="fas fa-play"></i></button>
+                                    <button class="btn btn-warning text-white"><i class="fas fa-upload"></i></button>
+                                   <a th:href="@{/admin/movie/episode/{id} (id=${episode.id})}"><button  class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button ></a>
+                                    <button id="deleteBtn" class="btn btn-danger" th:attr="data-id=${episode.id}"><i class="fas fa-trash-alt"></i></button>                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
+            <!--modal add-->
+            <div class="modal fade" id="addEpisodeModal" tabindex="-1" role="dialog" aria-labelledby="addEpisodeModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addEpisodeModalLabel">Thêm tập phim</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addEpisodeForm">
+                                <div class="form-group">
+                                    <label for="name_episode">Tên tập phim</label>
+                                    <input type="text" class="form-control" id="name_episode" name="name_episode" value="Episode: " required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order_episode">Thứ tự tập phim</label>
+                                    <input type="number" class="form-control" id="order_episode" name="order_episode" th:value="${episodes.size()+1}" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" form="addEpisodeForm">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            trailer-->
+            <div th:each="episode : ${episodes}" class="modal fade" th:id="'trailerModal'+${episode.orders}" tabindex="-1" role="dialog" aria-labelledby="trailerModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="trailerModalLabel">Trailer</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe id="trailerIframe" width="100%" height="315" th:src="${episode.getVideo_url()}"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
     </div>
+
+
+
 </div>
 
 <!-- jQuery -->
@@ -478,10 +564,54 @@
                 window.location.href = '/admin/movie';
             } catch (e) {
                 console.log(e);
-                toastr.error('Delete movie failed');
+                toastr.error(e.response.data.message);
             }
 
         });
+
+</script>
+<script>
+    document.getElementById('addEpisodeForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        // Get form data
+        let name_episode = document.getElementById('name_episode').value;
+        let order_episode = document.getElementById('order_episode').value;
+
+        // Create a new object for the data
+        let data = {
+            name: name_episode,
+            order: parseInt(order_episode)
+        };
+        console.log(data);
+
+        try {
+            // Send a POST request to the API endpoint
+            const res = await axios.post(`/api/admin/episode/${movie.id}`, data);
+            toastr.success('Add episode successfully');
+        } catch (error) {
+            console.error('Error:', error);
+            toastr.error(error.response.data.message);
+        }
+    });
+    document.querySelectorAll('#deleteBtn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            console.log(id);
+            axios.delete(`/api/admin/episode/${id}`)
+                .then(function(response) {
+                    console.log(response);
+                    toastr.success('Episode deleted successfully');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    toastr.error(error.response.data.message);
+                });
+        });
+    });
 
 </script>
 </body>

@@ -18,6 +18,7 @@ public class Episodes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
     String name;
     Integer duration;
     String video_url;

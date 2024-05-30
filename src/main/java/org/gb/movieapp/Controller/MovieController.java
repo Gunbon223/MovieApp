@@ -23,6 +23,7 @@ public class MovieController {
     private final DirectorService directorRepository;
     private final ActorService actorRepository;
     private final GenreService genreRepository;
+    private final EpisodeService episodeService;
 
 
     @GetMapping()
@@ -53,9 +54,18 @@ public class MovieController {
         model.addAttribute("directors",directorRepository.getAllDirectors());
         model.addAttribute("actors",actorRepository.getAllActors());
         model.addAttribute("genres",genreRepository.getAllGenres());
+        model.addAttribute("episodes",episodeService.getEpisodesByMovieId(id));
         model.addAttribute("types", MovieType.values());
 
         return "admin/movie/detail";
+    }
+
+    @GetMapping("/episode/{id}")
+    public String getMovieEpisode(Model model, @PathVariable int id)
+    {
+        model.addAttribute("movie", movieService.getById(id));
+        model.addAttribute("episodes",episodeService.getEpisodeById(id));
+        return "admin/movie/episode_detail";
     }
 
 

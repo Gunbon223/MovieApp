@@ -225,7 +225,7 @@ void saveComment() {
                     .rating(faker.number().randomDouble(1, 1, 10))
                     .type(faker.options().option(MovieType.values()))
                     .status(faker.bool().bool())
-                    .trailer("https://www.youtube.com/embed/EzFXDvC-EwM?si=lsC6njoE1fD3Zag5")
+                    .trailer("https://res.cloudinary.com/dll5rlqx9/video/upload/v1716637700/samples/dance-2.mp4")
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .actors(actorList)
@@ -344,11 +344,11 @@ void saveUser() {
         List<Movies> movies = movieAppRepository.findAll();
         for (Movies movie : movies) {
             if (movie.getType().equals(MovieType.TVSHOWS)) {
-                for (int i = 0; i < random.nextInt(6) + 7; i++) {
+                for (int i = 1; i < random.nextInt(6) + 7; i++) {
                     Episodes episode = Episodes.builder()
                             .name("Episode " + (i + 1) + ": " + faker.book().title())
                             .duration(random.nextInt(30) + 50)
-                            .video_url("https://www.youtube.com/embed/EzFXDvC-EwM?si=lsC6njoE1fD3Zag5")
+                            .video_url("https://res.cloudinary.com/dll5rlqx9/video/upload/v1716637700/samples/dance-2.mp4")
                             .orders(i)
                             .createdAt(LocalDateTime.now())
                             .updatedAt(LocalDateTime.now())
@@ -361,7 +361,7 @@ void saveUser() {
                     Episodes episode = Episodes.builder()
                             .name(movie.getName())
                             .duration(random.nextInt(140) + 20)
-                            .video_url("https://www.youtube.com/embed/EzFXDvC-EwM?si=lsC6njoE1fD3Zag5")
+                            .video_url("https://res.cloudinary.com/dll5rlqx9/video/upload/v1716637700/samples/dance-2.mp4")
                             .orders(1)
                             .createdAt(LocalDateTime.now())
                             .updatedAt(LocalDateTime.now())
