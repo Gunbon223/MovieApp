@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,7 +165,27 @@ public class MovieServiceImplement implements MovieService
         return movieAppRepository.findByIdAndSlugAndStatus(id, slug, status).orElse(null);
     }
 
+    @Override
+    public int getMovieCount() {
+        return (int) movieAppRepository.count();
     }
+
+    @Override
+    public Map<Integer, List<Movies>> getMovieCountByMonth(int year) {
+        Map<Integer, List<Movies>> monthlyMovieCount = new HashMap<>();
+
+        for (int month = 1; month <= 12; month++) {
+            LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0);
+            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1);
+
+            List<Movies> movies = movieAppRepository.findByCreatedAtBetween(startOfMonth, endOfMonth);
+            monthlyMovieCount.put(month, movies);
+        }
+
+        return monthlyMovieCount;
+    }
+
+}
 
 
 

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MovieService {
     Movies getById(int id);
@@ -29,4 +30,8 @@ public interface MovieService {
     String uploadThumbnail(int id, MultipartFile avatar);
 
     Movies getMovie(Integer id, String slug, Boolean status);
+
+    int getMovieCount();
+
+    Map<Integer, List<Movies>> getMovieCountByMonth(int year);
 }

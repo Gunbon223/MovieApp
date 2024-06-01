@@ -15,19 +15,24 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.gb.movieapp.Model.Enum.UserRole.ADMIN;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImplement implements UserService{
+public class UserServiceImplement implements UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
     @Autowired
     HttpSession session;
+
     @Override
     public void changePassword(PasswordRequest request) {
         //Kiem tra password cu
@@ -43,6 +48,7 @@ public class UserServiceImplement implements UserService{
         userRepository.save(user);
 
     }
+
     @Override
     public User changeInfo(int id, String name) {
         //Kiem tra thong tin
@@ -56,12 +62,13 @@ public class UserServiceImplement implements UserService{
         }
         //update thong tin
         user.setName(name);
-           return userRepository.save(user);
+        return userRepository.save(user);
 
     }
+
     @Override
     public Optional<User> getUserById(int id) {
-        return userRepository.findByIdAndRole(id,ADMIN);
+        return userRepository.findByIdAndRole(id, ADMIN);
     }
 
     @Override
@@ -85,5 +92,22 @@ public class UserServiceImplement implements UserService{
         }
     }
 
+    @Override
+    public List<User> getUserCount() {
+        return userRepository.findAll();
+    }
 
+    @Override
+    public Map<Integer, List<User>> getUserbyMonth(int year) {
+        Map<Integer, List<User>> monthlyUserCount = new HashMap<>();
+
+        for (int month = 1; month <= 12; month++) {
+            LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0);
+            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1);
+
+            List<User> userList = userRepository.findByCreatedAtBetween(startOfMonth, endOfMonth);
+            monthlyUserCount.put(month, userList);
+        }
+        return monthlyUserCount;
+    }
 }

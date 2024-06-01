@@ -69,12 +69,7 @@
                                     <tbody >
                                     <tr th:each="blog : ${movies}">
                                         <td>
-                                            <a class="text" th:href="@{/admin/movie/detail/{id} (id=${blog.getId()})}" th:text="${blog.getName()}">Khai giảng khóa
-                                                Java Spring Boot 12A
-                                                - song song 2 hình
-                                                thức offline /
-                                                online đáp ứng nhu
-                                                cầu đào tạo từ xa</a>
+                                            <a class="text" th:href="@{/admin/movie/detail/{id} (id=${blog.getId()})}" th:text="${blog.getName()}">Khai giảng khóa</a>
                                         </td>
                                         <td>
                                             <p th:text="${blog.description}"></p>

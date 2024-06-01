@@ -10,6 +10,7 @@ import org.gb.movieapp.Service.BlogService;
 import org.gb.movieapp.Service.CloudinaryService;
 import org.gb.movieapp.Utils.RandomColor;
 import org.gb.movieapp.entites.Blogs;
+import org.gb.movieapp.entites.Movies;
 import org.gb.movieapp.entites.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,6 +141,26 @@ public class BlogServiceImplements implements BlogService {
         } catch (Exception e) {
             throw new BadRequestException("Không thể upload ảnh");
         }
+    }
+
+    @Override
+    public int getBlogCount() {
+        return (int) blogRepository.count();
+    }
+
+    @Override
+    public Map<Integer, List<Blogs>> getBlogCountByMonth(int year) {
+        Map<Integer, List<Blogs>> monthBlogCount = new HashMap<>();
+
+        for (int month = 1; month <= 12; month++) {
+            LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0);
+            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1);
+
+            List<Blogs> blogs = blogRepository.findByCreatedAtBetween(startOfMonth, endOfMonth);
+            monthBlogCount.put(month, blogs);
+        }
+
+        return monthBlogCount;
     }
 
 }

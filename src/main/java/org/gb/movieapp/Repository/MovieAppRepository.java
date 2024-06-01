@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,4 +36,7 @@ public interface MovieAppRepository extends JpaRepository<Movies,Integer> {
     List<Movies> findAllByOrderByCreatedAtDesc();
 
     Optional<Movies> findByIdAndSlugAndStatus(Integer id, String slug, Boolean status);
+
+    int countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+    List<Movies> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 }
