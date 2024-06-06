@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{web/fragments/header :: header-link}">
-    <title th:text="${title}">Default Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/web/fragments/layout :: layout(~{::title},~{::#css},~{::#content},~{::#js})}">
+<th:block id="css">
+</th:block>
+
+<title >Trang chủ</title>
 </head>
 <body>
 <div class="container bg-dark text-white">
 
-    <header th:insert="~{web/fragments/header.html :: header-frag}"></header>
+    <th:block id="content">
 
     <div class="container-bg">
         <section class="py-4">
@@ -111,11 +113,14 @@
             </div>
         </section>
     </div>
-    <div th:insert="~{web/fragments/footer.html :: footer-ul}"></div>
+    </th:block>
+
 
 
 </div>
-<div th:insert="~{web/fragments/header.html :: footer-link}"></div>
+<th:block id="js">
 
+<div th:insert="~{web/fragments/header.html :: footer-link}"></div>
+</th:block>
 </body>
 </html>

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/web/fragments/layout :: layout(~{::title},~{::#css},~{::#content},~{::#js})}">
 
-<head th:replace="~{web/fragments/header :: header-link}">
-
+<head>
+    <th:block id="css">
+    </th:block>
+    <title>Favourite Movie</title>
+</head>
 <body>
 <div class="container bg-dark">
-    <header th:insert="~{web/fragments/header.html :: header-frag}"></header>
+    <th:block id="content">
 
     <div class="container text-white ">
         <  <div class="d-flex justify-content-between align-items-center">
@@ -28,6 +31,7 @@
         </div>
 
     </div>
+    </th:block>
 
     <script th:inline="javascript">
         const movie = [[${listMovie}]];

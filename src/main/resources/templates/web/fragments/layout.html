@@ -21,10 +21,12 @@
 
 <!--    Main content-->
     <th:block th:replace="${content}"></th:block>
+    <div th:insert="~{web/fragments/footer :: footer-ul}"></div>
 
 </div>
 
-<div th:insert="~{web/fragments/header.html :: footer-link}"></div>
+
+
 <th:block th:replace="${js}"></th:block>
 
 

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header-link">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/web/fragments/layout :: layout(~{::title},~{::#css},~{::#content},~{::#js})}">
+<head>
+    <th:block id="css">
+    </th:block>
     <title>Blog</title>
 </head>
 <body>
 <div class="container bg-dark">
-    <header th:insert="~{fragments/header.html :: header-frag}"></header>
+    <th:block id="content">
 
     <section class="py-4">
         <div class="container">
@@ -46,11 +48,11 @@
 
         </div>
     </section>
+    </th:block>
 
-    <div th:insert="fragments/footer.html :: footer-ul"></div>
 
 </div>
-
-<div th:insert="fragments/header.html :: footer-link"></div>
+<th:block id="js">
+</th:block>
 </body>
 </html>

@@ -238,20 +238,6 @@ void saveComment() {
         }
     }
 
-@Test
-void saveEpisodes() {
-    Faker faker = new Faker();
-    Slugify slugify = Slugify.builder().build();
-    for (int i = 0; i < 20; i++) {
-        String name = faker.book().title();
-        Episodes episodes = Episodes.builder()
-                .name(name)
-                .video_url("https://www.youtube.com/embed/EzFXDvC-EwM?si=lsC6njoE1fD3Zag5")
-                .orders(i)
-                .build();
-        episodeRepository.save(episodes);
-    }
-}
 
 @Test
 void saveUser() {

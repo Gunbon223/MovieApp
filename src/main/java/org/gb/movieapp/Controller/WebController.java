@@ -6,7 +6,6 @@ import org.gb.movieapp.Service.*;
 import org.gb.movieapp.entites.Blogs;
 import org.gb.movieapp.entites.Episodes;
 import org.gb.movieapp.entites.Movies;
-import org.gb.movieapp.entites.Reviews;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class WebController {
     public String getHomePage(Model model) {
         model.addAttribute("listTv", movieService.findByTypeAndStatus(MovieType.TVSHOWS,true, 1,  6));
         model.addAttribute("listMovie", movieService.findByTypeAndStatus(MovieType.MOVIE,true, 1,  6));
-        model.addAttribute("listFilm", movieService.findByTypeAndStatus(MovieType.FILMCHIẾURẠP,true, 1,  6));
+        model.addAttribute("listFilm", movieService.findByTypeAndStatus(MovieType.FILM,true, 1,  6));
         model.addAttribute("listHotMovie", movieService.OrderByRatingDesc(false, 1, 4));
         model.addAttribute("listBlog", blogService.findByStatus(true,4));
         model.addAttribute("title", "Home");
@@ -61,7 +60,7 @@ public class WebController {
     public String getMovieTheater(Model model,
                                @RequestParam(required = false ,defaultValue = "1") int page,
                                @RequestParam(required = false ,defaultValue = "12") int size) {
-        model.addAttribute("pageData", movieService.findByTypeAndStatus(MovieType.FILMCHIẾURẠP,true, page, size));
+        model.addAttribute("pageData", movieService.findByTypeAndStatus(MovieType.FILM,true, page, size));
         model.addAttribute("currentPage", page);
         return "/web/movietheater";
     }
