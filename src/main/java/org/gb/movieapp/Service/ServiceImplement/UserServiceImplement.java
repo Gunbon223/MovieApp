@@ -36,6 +36,8 @@ public class UserServiceImplement implements UserService {
     @Override
     public void changePassword(PasswordRequest request) {
         //Kiem tra password cu
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");

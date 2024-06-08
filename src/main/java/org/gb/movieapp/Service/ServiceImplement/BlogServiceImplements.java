@@ -70,6 +70,7 @@ public class BlogServiceImplements implements BlogService {
         String color = RandomColor.getRandomColor();
         String title = request.getTitle();
         Blogs blogs = new Blogs();
+        //TODO: Lay tt user tu ContextHolder
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
@@ -94,6 +95,8 @@ public class BlogServiceImplements implements BlogService {
         if (blog == null) {
             throw new ResourceNotFoundException("Không tìm thấy blog");
         }
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
@@ -115,6 +118,8 @@ public class BlogServiceImplements implements BlogService {
         if (blog == null) {
             throw new ResourceNotFoundException("Không tìm thấy blog");
         }
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");

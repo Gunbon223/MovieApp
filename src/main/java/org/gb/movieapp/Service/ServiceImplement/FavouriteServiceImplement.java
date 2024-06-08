@@ -28,6 +28,8 @@ public class FavouriteServiceImplement implements FavouriteService {
 
     @Override
     public List<Movies> getFavourite() {
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         List<Movies> movies = new ArrayList<>();
         for (Favourites favourite : favouriteRepository.findAll()) {
@@ -45,6 +47,8 @@ public class FavouriteServiceImplement implements FavouriteService {
 
     @Override
     public Favourites addFavourite(FavouriteMovieRequest request) {
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
@@ -78,6 +82,8 @@ public class FavouriteServiceImplement implements FavouriteService {
     }
     @Override
     public Favourites getFavouriteMovieByUserIdAndMovieId(int id) {
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             return null;
@@ -93,6 +99,8 @@ public class FavouriteServiceImplement implements FavouriteService {
 
     @Override
     public void deleteFavouriteByMovieIdAndUserId(int MovieId) {
+        //TODO: Lay tt user tu ContextHolder
+
         User user = (User) session.getAttribute("currentUser");
         Favourites favourites = favouriteRepository.findByUser_IdAndMovies_Id(user.getId(),MovieId);
         if (favourites == null) {

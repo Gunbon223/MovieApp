@@ -33,9 +33,10 @@ public class ReviewServiceImplement implements ReviewService {
         return reviewRepository.findByMoviesOrderByCreatedAtDesc(movies);
     }
 
-    //Validate thong tin: rating, content, su dung validation
+    //Validate thong tin: rating, content, su dung validationF
     @Override
     public Reviews createReview(UpsertReviewRequest request) {
+        //TODO: Lay tt user tu ContextHolder
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
@@ -58,6 +59,7 @@ public class ReviewServiceImplement implements ReviewService {
     @Override
     public Reviews updateReview(UpsertReviewRequest request, int id) {
         Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy review"));
+        //TODO: Lay tt user tu ContextHolder
 
         User user = (User) session.getAttribute("currentUser");
         Movies movie = movieRes.findById(request.getMovieId()).orElseThrow(() -> new BadRequestException("Không tìm thấy phim này !"));
@@ -85,6 +87,7 @@ public class ReviewServiceImplement implements ReviewService {
         Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy review"));
 
         User user = (User) session.getAttribute("currentUser");
+        //TODO: Lay tt user tu ContextHolder
 
         //check if user is the owner of the review
         if(!reviews.getUser().getId().equals(user.getId())){

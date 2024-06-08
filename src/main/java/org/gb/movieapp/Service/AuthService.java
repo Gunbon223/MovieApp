@@ -6,6 +6,13 @@ import org.gb.movieapp.Exception.BadRequestException;
 import org.gb.movieapp.Model.Request.LoginRequest;
 import org.gb.movieapp.Repository.UserRepository;
 import org.gb.movieapp.entites.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +22,21 @@ public class AuthService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final HttpSession session;
+    @Autowired
+    AuthenticationManager authenticationManager;
     public void login(LoginRequest request){
-        //Kiem tra email
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(()->new BadRequestException("Email incorrect"));
-        //kiem tra xem password co khop khong
-        if(!passwordEncoder.matches(request.getPassword(),user.getPassword())){
-            throw new BadRequestException("Password incorrect");
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+        try {
+            Authentication authenticate = authenticationManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(authenticate);
+            session.setAttribute("currentUser", authenticate);
+        } catch (DisabledException d)
+        {
+            throw new BadRequestException("Account is disabled");
+        } catch (AuthenticationException e) {
+            throw new BadRequestException("Invalid email/password");
         }
-        //luu thong tin user vao trong session
-        session.setAttribute("currentUser",user);
     }
 
     public void logout(){
