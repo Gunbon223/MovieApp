@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.gb.movieapp.Model.Enum.UserRole;
 import org.gb.movieapp.entites.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,12 +19,28 @@ import java.util.Optional;
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class CustomUserDetail implements UserDetails {
-   User user;
+    User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_"+ user.getRole().toString()));
     }
+
+    public UserRole getRole() {
+        return this.user.getRole();
+    }
+
+    public String getName() {
+        return this.user.getName();
+    }
+
+    public String getAvatar() {
+        return this.user.getAvatar();
+    }
+
+
+
+
 
     @Override
     public String getPassword() {

@@ -6,16 +6,18 @@ import org.gb.movieapp.Exception.BadRequestException;
 import org.gb.movieapp.Exception.ResourceNotFoundException;
 import org.gb.movieapp.Model.Request.UpsertBlogRequest;
 import org.gb.movieapp.Repository.BlogRepository;
+import org.gb.movieapp.Repository.UserRepository;
 import org.gb.movieapp.Service.BlogService;
 import org.gb.movieapp.Service.CloudinaryService;
 import org.gb.movieapp.Utils.RandomColor;
 import org.gb.movieapp.entites.Blogs;
-import org.gb.movieapp.entites.Movies;
 import org.gb.movieapp.entites.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class BlogServiceImplements implements BlogService {
@@ -32,6 +35,8 @@ public class BlogServiceImplements implements BlogService {
     HttpSession session;
     @Autowired
     CloudinaryService cloudinaryService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Page<Blogs> findByStatus(boolean status,  int size) {
@@ -70,11 +75,10 @@ public class BlogServiceImplements implements BlogService {
         String color = RandomColor.getRandomColor();
         String title = request.getTitle();
         Blogs blogs = new Blogs();
-        //TODO: Lay tt user tu ContextHolder
-        User user = (User) session.getAttribute("currentUser");
-        if (user == null) {
-            throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
-        }
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
         blogs.setTitle(request.getTitle());
         blogs.setDescription(request.getDescription());
@@ -89,15 +93,17 @@ public class BlogServiceImplements implements BlogService {
         return blogRepository.save(blogs);
     }
 
+
     @Override
     public Blogs updateBlog(int id, UpsertBlogRequest updatedBlog) {
         Blogs blog = blogRepository.findById(id);
         if (blog == null) {
             throw new ResourceNotFoundException("Không tìm thấy blog");
         }
-        //TODO: Lay tt user tu ContextHolder
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
         }
@@ -118,9 +124,10 @@ public class BlogServiceImplements implements BlogService {
         if (blog == null) {
             throw new ResourceNotFoundException("Không tìm thấy blog");
         }
-        //TODO: Lay tt user tu ContextHolder
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
         }

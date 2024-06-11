@@ -40,7 +40,7 @@
                             <a class="nav-link text-white" href="/blog">Blog</a>
                         </li>
                         <li class="nav-item right-corner">
-                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" th:if="${session.currentUser == null}">
+                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" th:if="${(#authentication.principal).getUser() == null}">
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
                                         <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,14 +53,14 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdownUser" th:if="${session.currentUser != null}">
+                            <div class="collapse navbar-collapse" id="navbarNavDarkDropdownUser" th:if="${(#authentication.principal).getUser() != null}">
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
-                                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.currentUser.getName()}">
+                                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" th:text="${(#authentication.principal).getUser().getName()}">
                                             username!
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-dark">
-                                            <li><a class="dropdown-item" href="/login" th:if="${session.currentUser.role == 'Admin' }">Admin page</a></li>
+                                            <li><a class="dropdown-item" href="/admin/dashboard" th:if="${(#authentication.principal).getRole().name() == 'ADMIN'}">Admin page</a></li>
                                             <li><a class="dropdown-item" href="/user-info">User Info</a></li>
                                             <li><a class="dropdown-item" href="/static">Recently watch</a></li>
                                             <li><a class="dropdown-item" href="/favourite">Your favourite</a></li>

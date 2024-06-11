@@ -179,7 +179,7 @@
 
 <th:block id="js">
 <script th:inline="javascript">
-    const curUser = [[${session.currentUser}]];
+    const curUser = [[${(#authentication.principal).getUser()}]];
     const userCount = [[${userCount}]];
     const movieCount = [[${movieCount}]];
     const blogCount = [[${blogCount}]];

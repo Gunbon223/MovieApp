@@ -36,7 +36,7 @@
     <script th:inline="javascript">
         const movie = [[${listMovie}]];
         const reviews = [[${listReview}]];
-        const curUser = [[${session.currentUser}]];
+        const curUser = [[${(#authentication.principal).getUser()}]];
 
     </script>
 

@@ -3,11 +3,14 @@ package org.gb.movieapp.Service.ServiceImplement;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.gb.movieapp.Exception.BadRequestException;
+import org.gb.movieapp.Exception.ResourceNotFoundException;
 import org.gb.movieapp.Model.Request.PasswordRequest;
 import org.gb.movieapp.Repository.UserRepository;
 import org.gb.movieapp.Service.UserService;
 import org.gb.movieapp.entites.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,9 +39,10 @@ public class UserServiceImplement implements UserService {
     @Override
     public void changePassword(PasswordRequest request) {
         //Kiem tra password cu
-        //TODO: Lay tt user tu ContextHolder
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
         }

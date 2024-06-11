@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -25,8 +26,19 @@ public class CustomFilter extends OncePerRequestFilter {
         // Lấy ra email trong session
         log.info("url = {}", request.getRequestURI());
 
-        String email = (String) request.getSession().getAttribute("currentUser");
-        log.info("email = {}", email);
+
+        Authentication authentication = (Authentication) request.getSession().getAttribute("currentUser");
+        String email = null;
+        if (authentication != null) {
+            email = authentication.getName();
+        }
+
+        String role = null;
+        if (authentication != null) {
+            role = ((CustomUserDetail) authentication.getPrincipal()).getRole().toString();
+            log.info("role = {}", role);
+        }
+
 
         // Kiểm tra email và chưa có thông tin xác thực
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -39,6 +51,9 @@ public class CustomFilter extends OncePerRequestFilter {
                     null,
                     userDetails.getAuthorities()
             );
+
+
+
 
             // Lưu thông tin request (IP, session, ...) vào trong đối tượng phân quyền
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

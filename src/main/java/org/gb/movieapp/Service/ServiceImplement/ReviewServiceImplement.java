@@ -13,6 +13,8 @@ import org.gb.movieapp.entites.Movies;
 import org.gb.movieapp.entites.Reviews;
 import org.gb.movieapp.entites.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +38,9 @@ public class ReviewServiceImplement implements ReviewService {
     //Validate thong tin: rating, content, su dung validationF
     @Override
     public Reviews createReview(UpsertReviewRequest request) {
-        //TODO: Lay tt user tu ContextHolder
-        User user = (User) session.getAttribute("currentUser");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
         }
@@ -59,9 +62,10 @@ public class ReviewServiceImplement implements ReviewService {
     @Override
     public Reviews updateReview(UpsertReviewRequest request, int id) {
         Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy review"));
-        //TODO: Lay tt user tu ContextHolder
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         Movies movie = movieRes.findById(request.getMovieId()).orElseThrow(() -> new BadRequestException("Không tìm thấy phim này !"));
 
         //check if user is the owner of the review
@@ -86,8 +90,9 @@ public class ReviewServiceImplement implements ReviewService {
     public void deleteReview(int id) {
         Reviews reviews = reviewRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy review"));
 
-        User user = (User) session.getAttribute("currentUser");
-        //TODO: Lay tt user tu ContextHolder
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
         //check if user is the owner of the review
         if(!reviews.getUser().getId().equals(user.getId())){

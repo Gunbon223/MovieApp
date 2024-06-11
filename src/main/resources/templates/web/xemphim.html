@@ -182,7 +182,7 @@
                         <strong th:text="${review.user.name}"></strong>
                     </p>
                     <p class="rating-time mb-0 ms-2" th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy')}"></p>
-                    <div th:if="${session.currentUser != null and session.currentUser.getId() == review.user.id}">
+                    <div th:if="${(#authentication.principal).getUser() != null and (#authentication.principal).getUser().getId() == review.user.id}">
                         <button class="btn btn-primary ms-4 btn-edit-review"
                                 th:data-review-id="${review.id}"
                                 th:data-review-content="${review.content}"
@@ -226,7 +226,7 @@
 <script th:inline="javascript">
     const movie = [[${movie}]];
     const reviews = [[${reviews}]];
-    const currentUser = [[${session.currentUser}]];
+    const currentUser = [[${(#authentication.principal).getUser()}]];
     console.log(movie)
     console.log(reviews);
     console.log(currentUser)

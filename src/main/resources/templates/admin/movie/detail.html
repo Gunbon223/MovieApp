@@ -246,7 +246,7 @@
 <script src="/admin-assets/plugins/select2/js/select2.full.min.js"></script>
 
 <script th:inline="javascript">
-    const curUser = [[${session.currentUser}]];
+    const curUser = [[${(#authentication.principal).getUser()}]];
     const movieActor = [[${movie.actors}]];
     const movieDirector = [[${movie.directors}]];
     const movieGenre = [[${movie.genres}]];

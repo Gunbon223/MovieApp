@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/web/fragments/layout :: layout(~{::title},~{::#css},~{::#content},~{::#js})}">
+<head>
 <th:block id="css">
 </th:block>
 
@@ -119,7 +120,6 @@
 
 </div>
 <th:block id="js">
-
 <div th:insert="~{web/fragments/header.html :: footer-link}"></div>
 </th:block>
 </body>

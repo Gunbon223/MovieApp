@@ -54,31 +54,14 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
 
             auth.requestMatchers("/").permitAll();
-            auth.requestMatchers("/user-info").hasRole("USER");
+            auth.requestMatchers("/user-info","/favourite").hasAnyRole("USER", "ADMIN");
+
             auth.requestMatchers("/admin/**","/api/admin/**").hasRole("ADMIN");
             auth.requestMatchers("/api/user/**","/api/reviews","/api/favourites/**","/api/auth/**","api/register","api/reviews/**").permitAll();
             auth.requestMatchers("/css/**", "/js/**", "/image/**").permitAll();
-//            auth.requestMatchers("/admin").hasRole("ADMIN");
-//
-//            auth.requestMatchers("/css/**", "/js/**", "/image/**").permitAll();
-//            auth.requestMatchers(paths).permitAll();
-//            auth.requestMatchers("/author").hasAnyRole("ADMIN", "AUTHOR");
-//            auth.requestMatchers(HttpMethod.GET, "/aa/**", "/bb/**").hasRole("ADMIN");
-//            auth.requestMatchers("/abc", "/bcd").hasAuthority("ROLE_USER");
-//            auth.requestMatchers("/xxx", "/yyy").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN");
-//            auth.anyRequest().authenticated(); // Tất cả các request khác đều cần xác thực
+
             auth.anyRequest().permitAll();
         });
-
-//        // Cấu hình login
-//        http.formLogin(formLogin -> {
-//            formLogin.loginPage("/login"); // Trang login do mình thiết kế
-//            formLogin.defaultSuccessUrl("/", true); // Nếu login thành công thì chuyển hướng về trang chủ
-//            formLogin.loginProcessingUrl("/login-handle");
-//            formLogin.usernameParameter("email");
-//            formLogin.passwordParameter("pass");
-//            formLogin.permitAll(); // Tất cả đều được truy cập vào trang login
-//        });
 
         // Cấu hình logout
         http.logout(logout -> {

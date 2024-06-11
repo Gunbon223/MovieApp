@@ -15,7 +15,7 @@
                     <div class="col-6 " >
                         <div class="mb-3 d-flex justify-content-center">
                             <a>
-                                <img id="avatar" class="rounded avatar-user" th:src="${session.currentUser.getAvatar()}" alt="avatar" style="" onclick="document.getElementById('fileInput').click()">
+                                <img id="avatar" class="rounded avatar-user" th:src="${(#authentication.principal).getUser().getAvatar()}" alt="avatar" style="" onclick="document.getElementById('fileInput').click()">
                                 <input id="fileInput" type="file" style="display: none;" onchange="loadFile(event)">
                             </a>
                         </div>
@@ -23,11 +23,11 @@
                     <div class="col-6" style="width: 40%">
                     <div class="mb-3 form-group">
                         <label for="name" class="form-label" >Name</label>
-                        <input type="text" class="form-control" id="name" name="name" th:value="${session.currentUser.getName()}" >
+                        <input type="text" class="form-control" id="name" name="name" th:value="${(#authentication.principal).getUser().getName()}" >
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label" >Email</label>
-                        <input type="email" class="form-control" id="email" name="email"  th:value="${session.currentUser.getEmail()} " disabled>
+                        <input type="email" class="form-control" id="email" name="email"  th:value="${(#authentication.principal).getUser().getEmail()} " disabled>
                     </div>
                         <button class="btn btn-primary me-2" type="Submit">Sửa</button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-review">
@@ -75,7 +75,7 @@
     <div th:insert="~{web/fragments/footer.html :: footer-ul}"></div>
 
     <script th:inline="javascript">
-        const curUser = [[${session.currentUser}]];
+        const curUser = [[${(#authentication.principal).getUser()}]];
     </script>
 
 </div>

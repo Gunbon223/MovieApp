@@ -2,14 +2,18 @@ package org.gb.movieapp.Service.ServiceImplement;
 
 import jakarta.servlet.http.HttpSession;
 import org.gb.movieapp.Exception.BadRequestException;
+import org.gb.movieapp.Exception.ResourceNotFoundException;
 import org.gb.movieapp.Model.Request.FavouriteMovieRequest;
 import org.gb.movieapp.Repository.FavouriteRepository;
 import org.gb.movieapp.Repository.MovieAppRepository;
+import org.gb.movieapp.Repository.UserRepository;
 import org.gb.movieapp.Service.FavouriteService;
 import org.gb.movieapp.entites.Favourites;
 import org.gb.movieapp.entites.Movies;
 import org.gb.movieapp.entites.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,14 +27,17 @@ public class FavouriteServiceImplement implements FavouriteService {
     @Autowired
     MovieAppRepository movieRes;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     HttpSession session;
 
 
     @Override
     public List<Movies> getFavourite() {
-        //TODO: Lay tt user tu ContextHolder
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         List<Movies> movies = new ArrayList<>();
         for (Favourites favourite : favouriteRepository.findAll()) {
             if (favourite.getUser().getId().equals(user.getId())) {
@@ -47,9 +54,10 @@ public class FavouriteServiceImplement implements FavouriteService {
 
     @Override
     public Favourites addFavourite(FavouriteMovieRequest request) {
-        //TODO: Lay tt user tu ContextHolder
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện chức năng này");
         }
@@ -82,26 +90,27 @@ public class FavouriteServiceImplement implements FavouriteService {
     }
     @Override
     public Favourites getFavouriteMovieByUserIdAndMovieId(int id) {
-        //TODO: Lay tt user tu ContextHolder
-
-        User user = (User) session.getAttribute("currentUser");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElse(null);
         if (user == null) {
             return null;
         }
 
         Favourites favourites = favouriteRepository.findByUser_IdAndMovies_Id(user.getId(), id);
-        if (favourites == null) {
-            return null;
-        }
         return favourites;
     }
 
 
     @Override
     public void deleteFavouriteByMovieIdAndUserId(int MovieId) {
-        //TODO: Lay tt user tu ContextHolder
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy user"));
 
-        User user = (User) session.getAttribute("currentUser");
         Favourites favourites = favouriteRepository.findByUser_IdAndMovies_Id(user.getId(),MovieId);
         if (favourites == null) {
             throw new BadRequestException("Phim chưa đươc thêm vào yêu thích nên không thể xoá");

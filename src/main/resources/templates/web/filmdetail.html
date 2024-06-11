@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/web/fragments/layout :: layout(~{::title},~{::#css},~{::#content},~{::#js})}">
+<head>
 
-<head th:replace="~{web/fragments/header :: header-link}">
-
+<th:block id="css">
+</th:block>
     <title>Film</title>
 </head>
 
 <body>
 <div class="container bg-dark">
-    <header th:insert="~{web/fragments/header.html :: header-frag}"></header>
 
+    <th:block id="content">
 
     <div class="container text-white ">
         <div class="d-flex align-items-center p-3 content-bg" >
@@ -165,7 +166,7 @@
                             <strong th:text="${review.user.name}"></strong>
                         </p>
                         <p class="rating-time mb-0 ms-2" th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy')}"></p>
-                        <div th:if="${session.currentUser != null and session.currentUser.getId() == review.user.id}">
+                        <div th:if="${(#authentication.principal).getUser() != null and (#authentication.principal).getUser().getId() == review.user.id}">
                             <button class="btn btn-primary ms-4 btn-edit-review"
                                     th:data-review-id="${review.id}"
                                     th:data-review-content="${review.content}"
@@ -186,27 +187,21 @@
             </div>
 
         </div>
+    </div>
+    </th:block>
 
-        <div th:insert="~{web/fragments/footer.html :: footer-ul}"></div>
-
-
-</div>
 </div>
 
 
-
+<th:block id="js">
 <script th:inline="javascript">
     const data_favourite = [[${isFavourite}]];
     const movie = [[${movie}]];
     const reviews = [[${listReview}]];
-    const curUser = [[${session.currentUser}]];
+    const curUser = [[${#authentication.principal}]];
 
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js" integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -215,7 +210,7 @@
 <script src="/web-assets/js/login-logout.js"></script>
 <script src="/web-assets/js/movie-detail.js"></script>
 
-
+</th:block>
 
 </body>
 

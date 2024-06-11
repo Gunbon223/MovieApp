@@ -43,9 +43,6 @@ public class AuthService {
         session.removeAttribute("currentUser");
     }
 
-    public User getCurrentUser(){
-        return (User) session.getAttribute("currentUser");
-    }
 
     public void setSessionUser(User user){
         session.setAttribute("currentUser",user);
